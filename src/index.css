@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global body styles for consistent layout */
+body {
+  @apply m-0 bg-gray-950 text-gray-100 font-sans;
+}

@@ -519,17 +519,20 @@ useEffect(() => {
         return parts.filter(Boolean).join(', ');
     };
 
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
-            <header className="bg-gray-900/90 backdrop-blur-xl shadow-2xl border-b border-gray-800/50 p-4 sticky top-0 z-10">
-                <div className="max-w-4xl mx-auto flex items-center justify-between">
-                    <button onClick={onBack} className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
-                        <ArrowLeft size={20} />
-                        <span className="font-semibold">{language === 'en' ? 'Back to List' : 'กลับไปที่รายการ'}</span>
-                    </button>
-                    <h2 className="text-xl font-bold text-gray-100 truncate">{item.itemName}</h2>
-                </div>
-            </header>
+    return (
+        <div className="min-h-screen bg-gray-950 text-gray-100 font-sans antialiased pt-12">
+            <header
+                className="bg-gray-900/90 backdrop-blur-xl border-b border-gray-800/50 sticky top-0 z-20"
+                style={{ minHeight: '36px', padding: '0.25rem 0' }}
+            >
+                <div className="max-w-4xl mx-auto flex items-center justify-between px-3 py-1 gap-2">
+                    <button onClick={onBack} className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
+                        <ArrowLeft size={18} />
+                        <span className="font-semibold text-sm">{language === 'en' ? 'Back to List' : 'กลับไปที่รายการ'}</span>
+                    </button>
+                    <h2 className="text-base font-bold text-gray-100 truncate">{item.itemName}</h2>
+                </div>
+            </header>
             <main className="max-w-4xl mx-auto p-4 md:p-8">
                  <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl shadow-xl border border-gray-700/50 p-6 md:p-8 relative overflow-hidden">
                     {/* Background decoration */}
@@ -706,7 +709,9 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
     const streetsForForm = getStreetsForCurrentLocation();
 
     const selectedStreetInForm = streetsForForm.find(s => s.value === newReview.location.street);
-    const alleysForForm = selectedStreetInForm?.alleys || [];
+const alleysForForm = selectedStreetInForm?.alleys || [];
+
+    const inputClasses = "w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300";
 
     const showLocationFields = newReview.mainCategory === 'Real World';
     
@@ -801,7 +806,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                             value={newReview.itemName}
                             onChange={(e) => setNewReview({...newReview, itemName: e.target.value})}
                             placeholder={language === 'en' ? "e.g., John's Used Cars, @foodie_reviews_ny" : "เช่น รถมือสองของจอห์น, @รีวิวของอร่อยนิวยอร์ก"}
-                            className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300"
+                            className={inputClasses}
                         />
                     </div>
                     
@@ -827,7 +832,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                     specificArea: ''
                                 }
                             })}
-                            className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                         >
                             <option value="">{language === 'en' ? "Select a main category" : "เลือกหมวดหมู่หลัก"}</option>
                             {categories.filter(cat => cat.isTopLevel).map((cat) => (
@@ -847,7 +852,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                 id="category"
                                 value={newReview.category}
                                 onChange={(e) => setNewReview({...newReview, category: e.target.value, subCategory: ''})}
-                                className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                             >
                                 <option value="">{newReview.mainCategory === 'Online' ? (language === 'en' ? 'Select a platform' : 'เลือกแพลตฟอร์ม') : (language === 'en' ? 'Select a category' : 'เลือกหมวดหมู่')}</option>
                                 {categoriesForForm.map((cat) => (
@@ -868,7 +873,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                 id="subCategory"
                                 value={newReview.subCategory}
                                 onChange={(e) => setNewReview({...newReview, subCategory: e.target.value})}
-                                className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                             >
                                 <option value="">{language === 'en' ? "Select a subcategory" : "เลือกหมวดหมู่ย่อย"}</option>
                                 {subcategoriesOrPlatformsForForm.map((subCat) => (
@@ -892,7 +897,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                     id="city"
                                     value={newReview.location.city}
                                     onChange={(e) => setNewReview({...newReview, location: {...newReview.location, city: e.target.value, district: '', zone: '', subDistrict: '', street: '', alley: '', specificArea: ''}})}
-                                    className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                 >
                                     <option value="">{language === 'en' ? "Select a city" : "เลือกเมือง"}</option>
                                     {citiesData.filter(c => c.value !== 'Online').map((city) => (
@@ -912,7 +917,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         id="district"
                                         value={newReview.location.district}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, district: e.target.value, zone: '', subDistrict: '', street: '', alley: '', specificArea: ''}})}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     >
                                         <option value="">{language === 'en' ? "Select a district" : "เลือกเขต"}</option>
                                         {districtsForForm.map((district) => (
@@ -933,7 +938,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         id="zone"
                                         value={newReview.location.zone}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, zone: e.target.value, subDistrict: '', street: '', alley: '', specificArea: ''}})}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     >
                                         <option value="">{language === 'en' ? "Select a zone" : "เลือกโซน"}</option>
                                         {zonesForForm.map((zone) => (
@@ -954,7 +959,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         id="subDistrict"
                                         value={newReview.location.subDistrict}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, subDistrict: e.target.value, street: '', alley: '', specificArea: ''}})}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     >
                                         <option value="">{language === 'en' ? "Select a sub-district" : "เลือกแขวง/ตำบล"}</option>
                                         {subDistrictsForForm.map((subDistrict) => (
@@ -976,7 +981,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         id="street"
                                         value={newReview.location.street}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, street: e.target.value, alley: '', specificArea: ''}})}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     >
                                         <option value="">{language === 'en' ? "Select a street" : "เลือกถนน"}</option>
                                         {streetsForForm.map((street) => (
@@ -998,7 +1003,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         id="alley"
                                         value={newReview.location.alley}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, alley: e.target.value, specificArea: ''}})}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     >
                                         <option value="">{language === 'en' ? "Select an alley" : "เลือกซอย"}</option>
                                         {alleysForForm.map((alley) => (
@@ -1021,7 +1026,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         value={newReview.location.specificArea}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, specificArea: e.target.value}})}
                                         placeholder={language === 'en' ? "e.g., Near Central Embassy, Soi 21 Building A" : "เช่น ใกล้เซ็นทรัลเอ็มบาสซี, ซอย 21 ตึก A"}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     />
                                 </div>
                             )}
@@ -1039,7 +1044,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                 value={newReview.location.specificArea}
                                 onChange={(e) => setNewReview({...newReview, location: {...newReview.location, specificArea: e.target.value}})}
                                 placeholder={language === 'en' ? "e.g., youtube.com/@influencername" : "เช่น youtube.com/@ชื่ออินฟลูเอนเซอร์"}
-                                className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                             />
                         </div>
                     )}
@@ -1083,7 +1088,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                             onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
                             rows={4}
                             placeholder={language === 'en' ? "Share your experience..." : "แบ่งปันประสบการณ์ของคุณ..."}
-                            className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300 resize-none"
+                        className={inputClasses + " resize-none"}
                         />
                     </div>
                     
@@ -1097,7 +1102,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                             value={newReview.author}
                             onChange={(e) => setNewReview({...newReview, author: e.target.value})}
                             placeholder={language === 'en' ? "John D." : "สมชาย ดี"}
-                            className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                         />
                     </div>
                     
@@ -1146,7 +1151,21 @@ const App = () => {
     const [isLoadingNoMatchingReviewsMessage, setIsLoadingNoMatchingReviewsMessage] = useState(false);
     const [generatedImages, setGeneratedImages] = useState({}); // State for dynamically generated images
     const [showFilters, setShowFilters] = useState(true); // State for filter section visibility
-    const [showSearchBar, setShowSearchBar] = useState(true); // State for search bar visibility
+const [showSearchBar, setShowSearchBar] = useState(true); // State for search bar visibility
+
+    const [showHeader, setShowHeader] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(window.scrollY);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY < 40) setShowHeader(true);
+            else if (window.scrollY > lastScrollY) setShowHeader(false);
+            else setShowHeader(true);
+            setLastScrollY(window.scrollY);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [lastScrollY]);
 
 
     // Data structures remain the same
@@ -1369,441 +1388,78 @@ const App = () => {
         );
     }
     
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 font-sans antialiased">
-            {/* Enhanced Header */}
-<div className="container mx-auto px-4 md:px-8">
-            <header className="bg-gray-900/90 backdrop-blur-xl shadow-2xl border-b border-gray-800/50 p-4 sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
-                                <Award className="text-white" size={28} />
-                            </div>
-                            <div>
-                                <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 tracking-tight">
-                                    ReviewAnything
-                                </h1>
-                                <p className="text-xs text-gray-500">{language === 'en' ? 'Trusted Community Reviews' : 'รีวิวจากชุมชนที่เชื่อถือได้'}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={() => setShowSearchBar(prev => !prev)}
-                                className="p-2 text-gray-400 hover:text-gray-100 transition-colors hover:bg-gray-800/50 rounded-lg"
-                                title={language === 'en' ? (showSearchBar ? "Hide Search" : "Show Search") : (showSearchBar ? "ซ่อนค้นหา" : "แสดงค้นหา")}
-                            >
-                                <Search size={18} />
-                            </button>
-                            <button
-                                onClick={() => setShowFilters(prev => !prev)}
-                                className="p-2 text-gray-400 hover:text-gray-100 transition-colors hover:bg-gray-800/50 rounded-lg"
-                                title={language === 'en' ? (showFilters ? "Hide Filters" : "Show Filters") : (showFilters ? "ซ่อนตัวกรอง" : "แสดงตัวกรอง")}
-                            >
-                                <Filter size={18} />
-                            </button>
-                            
-                            <div className="w-px h-6 bg-gray-700 mx-1"></div>
+    return (
+        <div className="min-h-screen bg-gray-950 text-gray-100 font-sans antialiased pt-14">
+            {/* Enhanced Header */}
+            <header
+              className={`bg-gray-900/90 backdrop-blur-xl border-b border-gray-800/50 fixed top-0 w-full z-20 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
+              style={{ minHeight: "36px", padding: "0.25rem 0" }}
+            >
+              <div className="max-w-4xl mx-auto flex items-center justify-between px-3 py-1 gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+                    <Award className="text-white" size={18} />
+                  </div>
+                  <h1 className="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 tracking-tight">
+                    ReviewAnything
+                  </h1>
+                </div>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setShowSearchBar((prev) => !prev)}
+                    className="p-1 text-gray-400 hover:text-gray-100 hover:bg-gray-800/50 rounded-lg"
+                    title="Search"
+                  >
+                    <Search size={15} />
+                  </button>
+                  <button
+                    onClick={() => setShowFilters((prev) => !prev)}
+                    className="p-1 text-gray-400 hover:text-gray-100 hover:bg-gray-800/50 rounded-lg"
+                    title="Filters"
+                  >
+                    <Filter size={15} />
+                  </button>
+                  <div className="w-px h-5 bg-gray-700 mx-1"></div>
+                  {user ? (
+                    <>
+                      <img src={user.photoURL} alt={user.displayName} className="w-6 h-6 rounded-full" />
+                      <button
+                        onClick={handleLogout}
+                        className="p-1 text-gray-400 hover:text-gray-100 hover:bg-gray-800/50 rounded-lg"
+                        title="Logout"
+                      >
+                        <LogOut size={16} />
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={handleLogin}
+                      className="px-2 py-1 bg-white text-gray-800 rounded-lg text-xs shadow hover:shadow-md flex items-center gap-1"
+                    >
+                      <GoogleIcon />
+                      Sign in
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setShowReviewForm(true)}
+                    disabled={!user}
+                    className={`px-2 py-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg text-xs ml-1 ${
+                      !user ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
+                  >
+                    Write
+                  </button>
+                  <button
+                    onClick={() => setLanguage(language === "en" ? "th" : "en")}
+                    className="px-2 py-1 rounded-lg bg-gray-800 text-gray-100 text-xs ml-1"
+                  >
+                    {language === "en" ? "🇹🇭" : "🇬🇧"}
+                  </button>
+                </div>
+              </div>
+            </header>
 
-                            {user ? (
-                                <>
-                                <img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" />
-                                <span className="text-sm font-semibold hidden sm:inline">{user.displayName}</span>
-                                <button
-                                    onClick={handleLogout}
-                                    className="p-2.5 text-gray-400 hover:text-gray-100 transition-colors hover:bg-gray-800/50 rounded-lg"
-                                    title={language === 'en' ? "Logout" : "ออกจากระบบ"}
-                                >
-                                    <LogOut size={20} />
-                                </button>
-                                </>
-                            ) : (
-                                <button
-                                    onClick={handleLogin}
-                                    className="flex items-center gap-2 px-4 py-2 bg-white text-gray-800 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold text-sm"
-                                >
-                                    <GoogleIcon />
-                                    {language === 'en' ? "Sign in with Google" : "เข้าสู่ระบบด้วย Google"}
-                                </button>
-                            )}
-
-                             <button
-                                onClick={() => setShowReviewForm(true)}
-                                disabled={!user}
-                                className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold text-sm ${
-                                    !user ? 'opacity-50 cursor-not-allowed' : ''
-                                }`}
-                                title={!user ? (language === 'en' ? "Sign in to write a review" : "เข้าสู่ระบบเพื่อเขียนรีวิว") : (language === 'en' ? "Write a review" : "เขียนรีวิว")}
-                            >
-                                <Plus size={18} />
-                                <span className="hidden sm:inline">{language === 'en' ? "Write Review" : "เขียนรีวิว"}</span>
-                            </button>
-
-                            <button
-                                onClick={() => setLanguage(language === 'en' ? 'th' : 'en')}
-                                className="px-3 py-2 rounded-xl bg-gradient-to-r from-gray-800 to-gray-700 text-gray-100 text-sm font-semibold border border-gray-600/50 hover:from-gray-700 hover:to-gray-600 transition-all duration-300 shadow-md"
-                            >
-                                {language === 'en' ? '🇹🇭' : '🇬🇧'}
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div className="mt-4">
-                        {/* Enhanced Search Bar (Conditionally Rendered) */}
-                        {showSearchBar && (
-                            <div className="relative group mb-4">
-                                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-xl blur group-focus-within:blur-md transition-all duration-300" />
-                                <Search className="absolute left-4 top-3.5 text-gray-400 z-10" size={20} />
-                                <input
-                                    type="text"
-                                    placeholder={language === 'en' ? "Search anything... sellers, influencers, courses, landlords..." : "ค้นหาอะไรก็ได้... ผู้ขาย, อินฟลูเอนเซอร์, คอร์สเรียน, เจ้าของที่ดิน..."}
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="relative w-full pl-12 pr-4 py-3.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/80 backdrop-blur-sm border-gray-700/50 text-gray-100 placeholder-gray-500 transition-all duration-300"
-                                />
-                            </div>
-                        )}
-                        
-                        {/* Enhanced Filter Pills (Conditionally Rendered) */}
-                        {showFilters && (
-                            <div className="space-y-3">
-                                {/* Main Category Filter */}
-                                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                                    {categories.filter(cat => cat.isTopLevel).map((cat) => (
-                                        <button
-                                            key={cat.value}
-                                            onClick={() => {
-                                                setSelectedMainCategory(cat.value);
-                                                setSelectedCategory('all'); setSelectedSubCategory('all'); setSelectedCityFilter('all'); setSelectedDistrictFilter('all'); setSelectedZoneFilter('all'); setSelectedSubDistrictFilter('all'); setSelectedStreetFilter('all'); setSelectedAlleyFilter('all'); setSearchQuery(''); setSelectedSpecificAreaFilter('');
-                                            }}
-                                            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl whitespace-nowrap transition-all duration-300 text-sm font-semibold transform hover:scale-105 ${
-                                                selectedMainCategory === cat.value 
-                                                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg' 
-                                                    : 'bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 text-gray-300 hover:bg-gray-700/50 hover:border-gray-600/50'
-                                            }`}
-                                        >
-                                            <span className="text-lg">{cat.icon}</span>
-                                            <span>{language === 'en' ? cat.label : cat.label_th}</span>
-                                        </button>
-                                    ))}
-                                </div>
-
-                                {/* Subcategory Filters with enhanced styling */}
-                                {selectedMainCategory !== 'all' && categoriesForFilter.length > 0 && (
-                                    <div className="flex gap-2 overflow-x-auto pb-2 border-t pt-3 border-gray-800/50 scrollbar-hide">
-                                        <span className="text-xs font-semibold text-gray-400 flex items-center px-2 uppercase tracking-wider">
-                                            {selectedMainCategory === 'Online' ? (language === 'en' ? 'Platform' : 'แพลตฟอร์ม') : (language === 'en' ? 'Category' : 'หมวดหมู่')}
-                                        </span>
-                                        <button 
-                                            onClick={() => { setSelectedCategory('all'); setSelectedSubCategory('all'); }} 
-                                            className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                selectedCategory === 'all' 
-                                                    ? 'bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-purple-300 border border-purple-500/30' 
-                                                    : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                            }`}
-                                        >
-                                            All
-                                        </button>
-                                        {categoriesForFilter.map((cat) => (
-                                            <button 
-                                                key={cat.value} 
-                                                onClick={() => { setSelectedCategory(cat.value); setSelectedSubCategory('all'); }} 
-                                                className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                    selectedCategory === cat.value 
-                                                        ? 'bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-purple-300 border border-purple-500/30' 
-                                                        : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                }`}
-                                            >
-                                                {language === 'en' ? cat.label : cat.label_th}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Second-level subcategory Filter */}
-                                {selectedCategory !== 'all' && subcategoriesForFilter.length > 0 && (
-                                    <div className="flex gap-2 overflow-x-auto pb-2 border-t pt-3 border-gray-800/50 scrollbar-hide">
-                                        <span className="text-xs font-semibold text-gray-400 flex items-center px-2 uppercase tracking-wider">
-                                            {language === 'en' ? "Type" : "ประเภท"}
-                                        </span>
-                                        <button 
-                                            onClick={() => setSelectedSubCategory('all')} 
-                                            className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                selectedSubCategory === 'all' 
-                                                    ? 'bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-purple-300 border border-purple-500/30' 
-                                                    : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                            }`}
-                                        >
-                                            All
-                                        </button>
-                                        {subcategoriesForFilter.map((subCat) => (
-                                            <button 
-                                                key={subCat.value} 
-                                                onClick={() => setSelectedSubCategory(subCat.value)} 
-                                                className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                    selectedSubCategory === subCat.value 
-                                                        ? 'bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-purple-300 border border-purple-500/30' 
-                                                        : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                }`}
-                                            >
-                                                {language === 'en' ? subCat.label : subCat.label_th}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Location Filters - Enhanced for Real World */}
-                                {(selectedMainCategory === 'all' || selectedMainCategory === 'Real World') && (
-                                    <>
-                                        {/* City Filter */}
-                                        <div className="flex gap-2 overflow-x-auto pb-2 border-t pt-3 border-gray-800/50 scrollbar-hide">
-                                            <span className="text-xs font-semibold text-emerald-400 flex items-center px-2 uppercase tracking-wider">
-                                                <MapPin size={14} className="mr-1" />
-                                                {language === 'en' ? "City" : "เมือง"}
-                                            </span>
-                                            <button 
-                                                onClick={() => {
-                                                    setSelectedCityFilter('all'); 
-                                                    setSelectedDistrictFilter('all'); 
-                                                    setSelectedZoneFilter('all'); 
-                                                    setSelectedSubDistrictFilter('all'); 
-                                                    setSelectedStreetFilter('all'); 
-                                                    setSelectedAlleyFilter('all');
-                                                }} 
-                                                className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                    selectedCityFilter === 'all' 
-                                                        ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                        : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                }`}
-                                            >
-                                                All Cities
-                                            </button>
-                                            {citiesData.filter(c => c.value !== 'Online').map((city) => (
-                                                <button 
-                                                    key={city.value} 
-                                                    onClick={() => {
-                                                        setSelectedCityFilter(city.value); 
-                                                        setSelectedDistrictFilter('all'); 
-                                                        setSelectedZoneFilter('all'); 
-                                                        setSelectedSubDistrictFilter('all'); 
-                                                        setSelectedStreetFilter('all'); 
-                                                        setSelectedAlleyFilter('all'); 
-                                                    }} 
-                                                    className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                        selectedCityFilter === city.value 
-                                                            ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                            : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                    }`}
-                                                >
-                                                    {language === 'en' ? city.label : city.label_th}
-                                                </button>
-                                            ))}
-                                        </div>
-                                        
-                                        {/* District Filter */}
-                                        {selectedCityFilter === 'Bangkok' && districtsForFilter.length > 0 && (
-                                            <div className="flex gap-2 overflow-x-auto pb-2 border-t pt-3 border-gray-800/50 scrollbar-hide">
-                                                <span className="text-xs font-semibold text-emerald-400 flex items-center px-2 uppercase tracking-wider ml-4">
-                                                    ↳ {language === 'en' ? "District" : "เขต"}
-                                                </span>
-                                                <button 
-                                                    onClick={() => {
-                                                        setSelectedDistrictFilter('all'); 
-                                                        setSelectedZoneFilter('all'); 
-                                                        setSelectedSubDistrictFilter('all'); 
-                                                        setSelectedStreetFilter('all'); 
-                                                        setSelectedAlleyFilter('all');
-                                                    }} 
-                                                    className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                        selectedDistrictFilter === 'all' 
-                                                            ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                            : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                    }`}
-                                                >
-                                                    All Districts
-                                                </button>
-                                                {districtsForFilter.map((district) => (
-                                                    <button 
-                                                        key={district.value} 
-                                                        onClick={() => {
-                                                            setSelectedDistrictFilter(district.value); 
-                                                            setSelectedZoneFilter('all'); 
-                                                            setSelectedSubDistrictFilter('all'); 
-                                                            setSelectedStreetFilter('all'); 
-                                                            setSelectedAlleyFilter('all'); 
-                                                        }} 
-                                                        className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                            selectedDistrictFilter === district.value 
-                                                                ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                                : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                        }`}
-                                                    >
-                                                        {language === 'en' ? district.label : district.label_th}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
-
-                                            {/* Zone Filter */}
-                                        {selectedCityFilter === 'Bangkok' && selectedDistrictFilter !== 'all' && zonesForFilter.length > 0 && (
-                                            <div className="flex gap-2 overflow-x-auto pb-2 border-t pt-3 border-gray-800/50 scrollbar-hide">
-                                                <span className="text-xs font-semibold text-emerald-400 flex items-center px-2 uppercase tracking-wider ml-8">
-                                                    ↳ {language === 'en' ? "Zone" : "โซน"}
-                                                </span>
-                                                <button 
-                                                    onClick={() => { 
-                                                        setSelectedZoneFilter('all'); 
-                                                        setSelectedSubDistrictFilter('all'); 
-                                                        setSelectedStreetFilter('all'); 
-                                                        setSelectedAlleyFilter('all'); 
-                                                    }} 
-                                                    className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                        selectedZoneFilter === 'all' 
-                                                            ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                            : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                    }`}
-                                                >
-                                                   All Zones
-                                                </button>
-                                                {zonesForFilter.map((zone) => (
-                                                    <button 
-                                                        key={zone.value} 
-                                                        onClick={() => { 
-                                                            setSelectedZoneFilter(zone.value); 
-                                                            setSelectedSubDistrictFilter('all'); 
-                                                            setSelectedStreetFilter('all'); 
-                                                            setSelectedAlleyFilter('all'); 
-                                                        }} 
-                                                        className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                            selectedZoneFilter === zone.value 
-                                                                ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                                : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                        }`}
-                                                    >
-                                                        {language === 'en' ? zone.label : zone.label_th}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
-
-                                        {/* Sub-District Filter */}
-                                        {selectedCityFilter === 'Bangkok' && (selectedDistrictFilter !== 'all' || selectedZoneFilter !== 'all') && subDistrictsForFilter.length > 0 && (
-                                            <div className="flex gap-2 overflow-x-auto pb-2 border-t pt-3 border-gray-800/50 scrollbar-hide">
-                                                <span className="text-xs font-semibold text-emerald-400 flex items-center px-2 uppercase tracking-wider ml-12">
-                                                    ↳ {language === 'en' ? "Sub-District" : "แขวง"}
-                                                </span>
-                                                <button 
-                                                    onClick={() => { 
-                                                        setSelectedSubDistrictFilter('all'); 
-                                                        setSelectedStreetFilter('all'); 
-                                                        setSelectedAlleyFilter('all'); 
-                                                    }} 
-                                                    className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                        selectedSubDistrictFilter === 'all' 
-                                                            ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                            : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                    }`}
-                                                >
-                                                    All Sub-Districts
-                                                </button>
-                                                {subDistrictsForFilter.map((subDistrict) => (
-                                                    <button 
-                                                        key={subDistrict.value} 
-                                                        onClick={() => { 
-                                                            setSelectedSubDistrictFilter(subDistrict.value); 
-                                                            setSelectedStreetFilter('all'); 
-                                                            setSelectedAlleyFilter('all'); 
-                                                        }} 
-                                                        className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                            selectedSubDistrictFilter === subDistrict.value 
-                                                                ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                                : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                        }`}
-                                                    >
-                                                        {language === 'en' ? subDistrict.label : subDistrict.label_th}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
-
-                                        {/* STREET FILTER */}
-                                        {selectedCityFilter === 'Bangkok' && streetsForFilter.length > 0 && (
-                                            <div className="flex gap-2 overflow-x-auto pb-2 border-t pt-3 border-gray-800/50 scrollbar-hide">
-                                                <span className="text-xs font-semibold text-emerald-400 flex items-center px-2 uppercase tracking-wider ml-16">
-                                                    ↳ {language === 'en' ? "Street" : "ถนน"}
-                                                </span>
-                                                <button 
-                                                    onClick={() => { 
-                                                        setSelectedStreetFilter('all'); 
-                                                        setSelectedAlleyFilter('all'); 
-                                                    }} 
-                                                    className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                        selectedStreetFilter === 'all' 
-                                                            ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                            : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                    }`}
-                                                >
-                                                    All Streets
-                                                </button>
-                                                {streetsForFilter.map((street) => (
-                                                    <button 
-                                                        key={street.value} 
-                                                        onClick={() => { 
-                                                            setSelectedStreetFilter(street.value); 
-                                                            setSelectedAlleyFilter('all'); 
-                                                        }} 
-                                                        className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                            selectedStreetFilter === street.value 
-                                                                ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                                : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                        }`}
-                                                    >
-                                                        {language === 'en' ? street.label : street.label_th}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
-
-                                        {/* ALLEY FILTER */}
-                                        {selectedCityFilter === 'Bangkok' && selectedStreetFilter !== 'all' && alleysForFilter.length > 0 && (
-                                            <div className="flex gap-2 overflow-x-auto pb-2 border-t pt-3 border-gray-800/50 scrollbar-hide">
-                                                <span className="text-xs font-semibold text-emerald-400 flex items-center px-2 uppercase tracking-wider ml-20">
-                                                    ↳ {language === 'en' ? "Alley" : "ซอย"}
-                                                </span>
-                                                <button 
-                                                    onClick={() => setSelectedAlleyFilter('all')} 
-                                                    className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                        selectedAlleyFilter === 'all' 
-                                                            ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                            : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                    }`}
-                                                >
-                                                    All Alleys
-                                                </button>
-                                                {alleysForFilter.map((alley) => (
-                                                    <button 
-                                                        key={alley.value} 
-                                                        onClick={() => setSelectedAlleyFilter(alley.value)} 
-                                                        className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-300 text-sm font-medium ${
-                                                            selectedAlleyFilter === alley.value 
-                                                                ? 'bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/30' 
-                                                                : 'bg-gray-800/30 border border-gray-700/30 text-gray-400 hover:bg-gray-700/30'
-                                                        }`}
-                                                    >
-                                                        {language === 'en' ? alley.label : alley.label_th}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </header>
-
-            {/* Main Content */}
+            {/* Main Content */}
             <main className="max-w-7xl mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {!isAuthReady ? (
