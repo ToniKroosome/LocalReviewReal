@@ -706,7 +706,9 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
     const streetsForForm = getStreetsForCurrentLocation();
 
     const selectedStreetInForm = streetsForForm.find(s => s.value === newReview.location.street);
-    const alleysForForm = selectedStreetInForm?.alleys || [];
+const alleysForForm = selectedStreetInForm?.alleys || [];
+
+    const inputClasses = "w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300";
 
     const showLocationFields = newReview.mainCategory === 'Real World';
     
@@ -801,7 +803,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                             value={newReview.itemName}
                             onChange={(e) => setNewReview({...newReview, itemName: e.target.value})}
                             placeholder={language === 'en' ? "e.g., John's Used Cars, @foodie_reviews_ny" : "เช่น รถมือสองของจอห์น, @รีวิวของอร่อยนิวยอร์ก"}
-                            className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300"
+                            className={inputClasses}
                         />
                     </div>
                     
@@ -827,7 +829,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                     specificArea: ''
                                 }
                             })}
-                            className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                         >
                             <option value="">{language === 'en' ? "Select a main category" : "เลือกหมวดหมู่หลัก"}</option>
                             {categories.filter(cat => cat.isTopLevel).map((cat) => (
@@ -847,7 +849,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                 id="category"
                                 value={newReview.category}
                                 onChange={(e) => setNewReview({...newReview, category: e.target.value, subCategory: ''})}
-                                className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                             >
                                 <option value="">{newReview.mainCategory === 'Online' ? (language === 'en' ? 'Select a platform' : 'เลือกแพลตฟอร์ม') : (language === 'en' ? 'Select a category' : 'เลือกหมวดหมู่')}</option>
                                 {categoriesForForm.map((cat) => (
@@ -868,7 +870,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                 id="subCategory"
                                 value={newReview.subCategory}
                                 onChange={(e) => setNewReview({...newReview, subCategory: e.target.value})}
-                                className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                             >
                                 <option value="">{language === 'en' ? "Select a subcategory" : "เลือกหมวดหมู่ย่อย"}</option>
                                 {subcategoriesOrPlatformsForForm.map((subCat) => (
@@ -892,7 +894,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                     id="city"
                                     value={newReview.location.city}
                                     onChange={(e) => setNewReview({...newReview, location: {...newReview.location, city: e.target.value, district: '', zone: '', subDistrict: '', street: '', alley: '', specificArea: ''}})}
-                                    className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                 >
                                     <option value="">{language === 'en' ? "Select a city" : "เลือกเมือง"}</option>
                                     {citiesData.filter(c => c.value !== 'Online').map((city) => (
@@ -912,7 +914,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         id="district"
                                         value={newReview.location.district}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, district: e.target.value, zone: '', subDistrict: '', street: '', alley: '', specificArea: ''}})}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     >
                                         <option value="">{language === 'en' ? "Select a district" : "เลือกเขต"}</option>
                                         {districtsForForm.map((district) => (
@@ -933,7 +935,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         id="zone"
                                         value={newReview.location.zone}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, zone: e.target.value, subDistrict: '', street: '', alley: '', specificArea: ''}})}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     >
                                         <option value="">{language === 'en' ? "Select a zone" : "เลือกโซน"}</option>
                                         {zonesForForm.map((zone) => (
@@ -954,7 +956,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         id="subDistrict"
                                         value={newReview.location.subDistrict}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, subDistrict: e.target.value, street: '', alley: '', specificArea: ''}})}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     >
                                         <option value="">{language === 'en' ? "Select a sub-district" : "เลือกแขวง/ตำบล"}</option>
                                         {subDistrictsForForm.map((subDistrict) => (
@@ -976,7 +978,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         id="street"
                                         value={newReview.location.street}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, street: e.target.value, alley: '', specificArea: ''}})}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     >
                                         <option value="">{language === 'en' ? "Select a street" : "เลือกถนน"}</option>
                                         {streetsForForm.map((street) => (
@@ -998,7 +1000,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         id="alley"
                                         value={newReview.location.alley}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, alley: e.target.value, specificArea: ''}})}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     >
                                         <option value="">{language === 'en' ? "Select an alley" : "เลือกซอย"}</option>
                                         {alleysForForm.map((alley) => (
@@ -1021,7 +1023,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                         value={newReview.location.specificArea}
                                         onChange={(e) => setNewReview({...newReview, location: {...newReview.location, specificArea: e.target.value}})}
                                         placeholder={language === 'en' ? "e.g., Near Central Embassy, Soi 21 Building A" : "เช่น ใกล้เซ็นทรัลเอ็มบาสซี, ซอย 21 ตึก A"}
-                                        className="w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                                     />
                                 </div>
                             )}
@@ -1039,7 +1041,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                                 value={newReview.location.specificArea}
                                 onChange={(e) => setNewReview({...newReview, location: {...newReview.location, specificArea: e.target.value}})}
                                 placeholder={language === 'en' ? "e.g., youtube.com/@influencername" : "เช่น youtube.com/@ชื่ออินฟลูเอนเซอร์"}
-                                className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                             />
                         </div>
                     )}
@@ -1083,7 +1085,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                             onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
                             rows={4}
                             placeholder={language === 'en' ? "Share your experience..." : "แบ่งปันประสบการณ์ของคุณ..."}
-                            className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300 resize-none"
+                        className={inputClasses + " resize-none"}
                         />
                     </div>
                     
@@ -1097,7 +1099,7 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
                             value={newReview.author}
                             onChange={(e) => setNewReview({...newReview, author: e.target.value})}
                             placeholder={language === 'en' ? "John D." : "สมชาย ดี"}
-                            className="w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300"
+                        className={inputClasses}
                         />
                     </div>
                     
@@ -1384,11 +1386,11 @@ const [showSearchBar, setShowSearchBar] = useState(true); // State for search ba
     }
     
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 font-sans antialiased pt-14">
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 font-sans antialiased pt-12">
             {/* Enhanced Header */}
             <header
               className={`bg-gray-900/90 backdrop-blur-xl border-b border-gray-800/50 fixed top-0 w-full z-20 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"}`}
-              style={{ minHeight: "48px", padding: "0.25rem 0" }}
+              style={{ minHeight: "40px", padding: "0.25rem 0" }}
             >
               <div className="max-w-4xl mx-auto flex items-center justify-between px-3 py-1 gap-2">
                 <div className="flex items-center gap-2">
