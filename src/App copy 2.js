@@ -399,87 +399,101 @@ const ReviewItem = ({ item, onClick, language, categories, citiesData, bangkokSt
 
 // New ItemDetailPage component
 const ItemDetailPage = ({ item, onBack, language, categories, citiesData, bangkokStreetsData, generatedImages, setGeneratedImages }) => {
+  if (!item) return null;
 
- const currentItemImageStatus = generatedImages[item.id];
+  // ← put your cursor here
+  // grab current status
+  const currentItemImageStatus = generatedImages[item.id];
 
-// kick off image‐generation when this page mounts (or status changes)
-useEffect(() => {
-  // 1) never run until we have an `item`
-  if (!item) return;
-
-  // 2) only kick off generation if we don’t have a URL
-  //    and we haven’t retried 3× yet
-  if (
-    !currentItemImageStatus ||
-    (
-      !currentItemImageStatus.url &&
-      !currentItemImageStatus.loading &&
+  // kick off image‐generation when this page mounts (or status changes)
+  useEffect(() => {
+    // only try if we don’t already have a URL and we haven’t already retried 3×
+    if (
+      !currentItemImageStatus ||
       (
-        currentItemImageStatus.error ||
-        (currentItemImageStatus.retries ?? 0) < 3
+        !currentItemImageStatus.url &&
+        !currentItemImageStatus.loading &&
+        (
+          currentItemImageStatus.error ||
+          (currentItemImageStatus.retries ?? 0) < 3
+        )
       )
-    )
-  ) {
-    const retries = currentItemImageStatus?.retries ?? 0;
+    ) {
+      const retries = currentItemImageStatus?.retries ?? 0;
+      setGeneratedImages(prev => ({
+        ...prev,
+        [item.id]: { loading: true, url: null, error: false, retries: retries + 1 }
+      }));
 
-    // mark “loading” and bump retry count
-    setGeneratedImages(prev => ({
-      ...prev,
-      [item.id]: {
-        loading: true,
-        url:     null,
-        error:   false,
-        retries: retries + 1,
-      },
-    }));
-
-    // build your prompt…
-    const prompt = `A detailed photo of the shop front of "${item.itemName}" which is a ${
-      item.subCategory || item.category
-    } in ${
-      item.location.city !== 'Online'
+      const prompt = `A detailed photo of the shop front of "${item.itemName}" which is a ${item.subCategory || item.category} in ${item.location.city !== 'Online'
         ? item.location.city + ', ' + item.location.district
         : 'the online world'
-    }. Ensure any visible text is in English. Focus on the exterior.`;
+      }. Ensure any visible text is in English. Focus on the exterior.`;
 
-    // fire off the API
-    generateImage(prompt)
-      .then(url => {
-        setGeneratedImages(prev => ({
-          ...prev,
-          [item.id]: {
-            ...prev[item.id],
-            loading: false,
-            url,
-            error:   false,
-          }
-        }));
-      })
-      .catch(() => {
-        setGeneratedImages(prev => ({
-          ...prev,
-          [item.id]: {
-            ...prev[item.id],
-            loading: false,
-            url:     null,
-            error:   true,
-          }
-        }));
-      });
-  }
-}, [
-  // deps must include `item` so we bail early when !item
-  item,
-  // track the status fields
-  currentItemImageStatus?.url,
-  currentItemImageStatus?.loading,
-  currentItemImageStatus?.error,
-  currentItemImageStatus?.retries,
-  // and of course the setter
-  setGeneratedImages,
-]);
+      generateImage(prompt)
+        .then(url => {
+          setGeneratedImages(prev => ({
+            ...prev,
+            [item.id]: { ...prev[item.id], loading: false, url, error: false }
+          }));
+        })
+        .catch(() => {
+          setGeneratedImages(prev => ({
+            ...prev,
+            [item.id]: { ...prev[item.id], loading: false, url: null, error: true }
+          }));
+        });
+    }
+  }, [
+    item.id,
+    item.itemName,
+    item.category,
+    item.subCategory,
+    item.location.city,
+    item.location.district,
+    currentItemImageStatus?.url,
+    currentItemImageStatus?.loading,
+    currentItemImageStatus?.error,
+    currentItemImageStatus?.retries,
+    setGeneratedImages
+  ]);
 
-        const getCategoryLabel = (mainCat, cat, subCat) => {
+    useEffect(() => {
+        if (!currentItemImageStatus || (!currentItemImageStatus.url && !currentItemImageStatus.loading && (currentItemImageStatus.error || currentItemImageStatus.retries === undefined || currentItemImageStatus.retries < 3))) {
+            const currentRetries = currentItemImageStatus?.retries || 0;
+            if (currentItemImageStatus && currentItemImageStatus.loading) {
+                return;
+            }
+
+            setGeneratedImages(prev => ({ 
+                ...prev, 
+                [item.id]: { loading: true, url: null, error: false, retries: currentRetries + 1 } 
+            }));
+            
+            const prompt = `A detailed photo of the shop front of "${item.itemName}" which is a ${item.subCategory || item.category} in ${item.location.city !== 'Online' ? item.location.city + ', ' + item.location.district : 'the online world'}. Ensure any text visible in the image is in English. Focus on the exterior.`;
+            generateImage(prompt).then(url => {
+                setGeneratedImages(prev => ({ ...prev, [item.id]: { ...prev[item.id], loading: false, url: url, error: false } }));
+            }).catch(error => {
+                console.error("Failed to generate image for item:", item.itemName, error);
+                setGeneratedImages(prev => ({ ...prev, [item.id]: { ...prev[item.id], loading: false, url: null, error: true } }));
+            });
+        }
+    }, [
+        item.id, 
+        item.itemName, 
+        item.category, 
+        item.subCategory, 
+        item.location.city, 
+        item.location.district,
+        currentItemImageStatus?.url, 
+        currentItemImageStatus?.loading, 
+        currentItemImageStatus?.error, 
+        currentItemImageStatus?.retries, 
+        setGeneratedImages 
+    ]);
+
+
+    const getCategoryLabel = (mainCat, cat, subCat) => {
         const mainLabel = categories.find(c => c.value === mainCat)?.[`label_${language}`] || mainCat;
         const platformOrCat = mainCat === 'Online' 
             ? categories.find(c => c.value === mainCat)?.platforms.find(p => p.value === cat)?.[`label_${language}`] || cat
@@ -1372,7 +1386,6 @@ const App = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 font-sans antialiased">
             {/* Enhanced Header */}
-<div className="container mx-auto px-4 md:px-8">
             <header className="bg-gray-900/90 backdrop-blur-xl shadow-2xl border-b border-gray-800/50 p-4 sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex items-center justify-between">
@@ -1837,8 +1850,6 @@ const App = () => {
                     )}
                 </div>
             </main>
-</div>
-
 
             <ReviewFormModal
                 show={showReviewForm}
