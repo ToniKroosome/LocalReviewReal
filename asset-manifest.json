@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/LocalReviewReal/static/css/main.0567c71d.css",
+    "main.js": "/LocalReviewReal/static/js/main.c372c975.js",
+    "static/js/453.7649aa0a.chunk.js": "/LocalReviewReal/static/js/453.7649aa0a.chunk.js",
+    "index.html": "/LocalReviewReal/index.html",
+    "main.0567c71d.css.map": "/LocalReviewReal/static/css/main.0567c71d.css.map",
+    "main.c372c975.js.map": "/LocalReviewReal/static/js/main.c372c975.js.map",
+    "453.7649aa0a.chunk.js.map": "/LocalReviewReal/static/js/453.7649aa0a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0567c71d.css",
+    "static/js/main.c372c975.js"
+  ]
+}
