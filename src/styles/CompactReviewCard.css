@@ -1,5 +1,5 @@
 .compact-review-card {
-  /* Choose ONE of the following blocks to activate based on your theme */
+  @apply flex items-center gap-1 text-xs text-gray-300;
   /* === Dark Theme === */
   /* background-color: var(--card-bg, #23272f); */
   /* @apply text-gray-100 rounded-lg shadow border border-gray-700 p-3 flex flex-col justify-between hover:shadow-md transition-transform duration-200; */
