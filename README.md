@@ -80,3 +80,4 @@ export interface Category {
   color?: string;
   subCategories?: Category[];
 }
+`CompactReviewCard` presents a sleek summary of a review item using the Inter font and subtle shadows. The card uses a dark gray background to match the rest of the app. Only the first review quote is shown with an avatar and a verified badge.
