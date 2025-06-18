@@ -643,8 +643,11 @@ const App = () => {
     const [noMatchingReviewsMessage, setNoMatchingReviewsMessage] = useState('');
     const [isLoadingNoMatchingReviewsMessage, setIsLoadingNoMatchingReviewsMessage] = useState(false);
     const [generatedImages, setGeneratedImages] = useState({}); // State for dynamically generated images
-    const [showFilters, setShowFilters] = useState(true); // State for filter section visibility
-const [showSearchBar, setShowSearchBar] = useState(true); // State for search bar visibility
+    // Visibility states for search and filter UI controlled by Header buttons
+    const [showSearchBar, setShowSearchBar] = useState(false);
+    const [showFilters, setShowFilters] = useState(false);
+    const toggleSearchBar = () => setShowSearchBar(v => !v);
+    const toggleFilters = () => setShowFilters(v => !v);
 
     const [showHeader, setShowHeader] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(window.scrollY);
@@ -886,8 +889,8 @@ const [showSearchBar, setShowSearchBar] = useState(true); // State for search ba
     {/* Enhanced Header */}
     <Header
       showHeader={showHeader}
-      toggleSearchBar={() => setShowSearchBar(prev => !prev)}
-      toggleFilters={() => setShowFilters(prev => !prev)}
+      toggleSearchBar={toggleSearchBar}
+      toggleFilters={toggleFilters}
       user={user}
       handleLogin={handleLogin}
       handleLogout={handleLogout}
