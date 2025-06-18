@@ -68,3 +68,28 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Category Navigation Example
+
+The new navigation uses two main categories with nested sub-categories. Data is stored in `src/data/navigationCategories.ts` and rendered with the `CategoryTabs` component.
+
+```ts
+export interface Category {
+  id: string;
+  label: string;
+  color?: string;
+  subCategories?: Category[];
+}
+```
+
+Use the component:
+
+```jsx
+import CategoryTabs from './components/CategoryTabs';
+
+function App() {
+  return <CategoryTabs />;
+}
+```
+
+Styles are defined in `src/styles/CategoryTabs.css`.
