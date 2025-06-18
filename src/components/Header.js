@@ -15,23 +15,23 @@ const Header = ({
 }) => (
   <header
     className={`bg-gray-900/90 backdrop-blur-xl border-b border-gray-800/50 fixed top-0 w-full z-20 transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-full'}`}
-    style={{ minHeight: '40px', padding: '0.25rem 0' }}
+    style={{ minHeight: '32px', padding: '0.15rem 0' }}
   >
-    <div className="max-w-4xl mx-auto flex items-center justify-between px-3 py-1 gap-2">
+    <div className="max-w-4xl mx-auto flex items-center justify-between px-3 py-0.5 gap-2">
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-          <Award className="text-white" size={18} />
+        <div className="w-6 h-6 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+          <Award className="text-white" size={16} />
         </div>
-        <h1 className="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 tracking-tight">
+        <h1 className="text-base font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 tracking-tight">
           ReviewAnything
         </h1>
       </div>
       <div className="flex items-center gap-1">
         <button onClick={toggleSearchBar} className="p-1 text-gray-400 hover:text-gray-100 hover:bg-gray-800/50 rounded-lg" title="Search">
-          <Search size={15} />
+          <Search size={14} />
         </button>
         <button onClick={toggleFilters} className="p-1 text-gray-400 hover:text-gray-100 hover:bg-gray-800/50 rounded-lg" title="Filters">
-          <Filter size={15} />
+          <Filter size={14} />
         </button>
         <div className="w-px h-5 bg-gray-700 mx-1"></div>
         {user ? (
