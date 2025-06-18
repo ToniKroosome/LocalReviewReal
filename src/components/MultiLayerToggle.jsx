@@ -9,14 +9,21 @@ import '../styles/MultiLayerToggle.css';
  * - selectedId: currently selected node id
  * - onSelect: callback when a leaf or node is clicked
  */
-const colorPalettes = {
-  shop: ['#0d47a1', '#1976d2', '#64b5f6'],
-  location: ['#1b5e20', '#388e3c', '#81c784']
+// Base HSL values for the two category types. Deeper layers lighten the color
+// so the hierarchy is easy to follow at a glance.
+const baseHsl = {
+  shop: [210, 100, 35], // dark blue
+  location: [120, 50, 32] // dark green
+};
+
+const getShade = (type, depth) => {
+  const [h, s, l] = baseHsl[type] || [0, 0, 50];
+  const lightness = Math.min(l + depth * 12, 85); // lighten for deeper levels
+  return `hsl(${h}, ${s}%, ${lightness}%)`;
 };
 
 const ToggleItem = ({ node, depth, type, selectedId, onSelect, language }) => {
-  const colors = colorPalettes[type] || [];
-  const color = colors[Math.min(depth, colors.length - 1)] || '#555';
+  const color = getShade(type, depth);
   const isSelected = selectedId === node.id;
 
   return (
