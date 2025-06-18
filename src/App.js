@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Star, Camera, CheckCircle, User, TrendingUp, Calendar, Filter, Plus, X, ChevronDown, LogOut, Sparkles, MapPin, Globe, Heart, MessageCircle, Award, Clock, ArrowLeft } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { initialSampleReviews } from './data/sampleReviews';
 import Header from './components/Header';
 import ItemList from './components/ItemList';
