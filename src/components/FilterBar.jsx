@@ -16,31 +16,60 @@ const FilterBar = ({ onFilterChange, language }) => {
 
 
   const shopCategories = [
-    'All Categories',
-    'Online',
-    'Real World',
-    'Local Services',
-    'Facebook Marketplace',
-    'Goods & Products',
-    'Landlords',
-    'Restaurants & Cafes',
-    'Retail Stores',
-    'Education',
+    { value: 'All Categories', th: 'ทุกหมวดหมู่' },
+    { value: 'Online', th: 'ออนไลน์' },
+    { value: 'Real World', th: 'ออฟไลน์' },
+    { value: 'Local Services', th: 'บริการท้องถิ่น' },
+    { value: 'Facebook Marketplace', th: 'ตลาดเฟซบุ๊ก' },
+    { value: 'Goods & Products', th: 'สินค้า' },
+    { value: 'Landlords', th: 'เจ้าของที่' },
+    { value: 'Restaurants & Cafes', th: 'ร้านอาหารและคาเฟ่' },
+    { value: 'Retail Stores', th: 'ร้านค้าปลีก' },
+    { value: 'Education', th: 'การศึกษา' },
   ];
 
   const onlineTypes = [
-    'Social Media App',
-    'Website',
-    'Individual Remote Services',
+    { value: 'Social Media App', th: 'แอปโซเชียล' },
+    { value: 'Website', th: 'เว็บไซต์' },
+    { value: 'Individual Remote Services', th: 'บริการออนไลน์' },
   ];
 
   const locationLevels = {
-    city: ['All Cities', 'Bangkok'],
-    district: ['All Districts', 'Sathorn', 'Watthana', 'Khlong Toei', 'Lat Phrao'],
-    zone: ['All Zones', 'Sukhumvit Extension', 'Port Area', 'Convention Center Area'],
-    subDistrict: ['All Sub-Districts', 'Khlong Toei', 'Khlong Tan', 'Phra Khanong', 'Lumphini'],
-    street: ['All Streets', 'Sukhumvit Road'],
-    alley: ['All Alleys', 'Sukhumvit Soi 1', 'Sukhumvit Soi 3 (Nana Nuea)', 'Sukhumvit Soi 11', 'Sukhumvit Soi 21 (Asok)'],
+    city: [
+      { value: 'All Cities', th: 'ทุกเมือง' },
+      { value: 'Bangkok', th: 'กรุงเทพฯ' }
+    ],
+    district: [
+      { value: 'All Districts', th: 'ทุกเขต' },
+      { value: 'Sathorn', th: 'สาทร' },
+      { value: 'Watthana', th: 'วัฒนา' },
+      { value: 'Khlong Toei', th: 'คลองเตย' },
+      { value: 'Lat Phrao', th: 'ลาดพร้าว' }
+    ],
+    zone: [
+      { value: 'All Zones', th: 'ทุกโซน' },
+      { value: 'Sukhumvit Extension', th: 'ส่วนต่อขยายสุขุมวิท' },
+      { value: 'Port Area', th: 'ย่านท่าเรือ' },
+      { value: 'Convention Center Area', th: 'ย่านศูนย์ประชุม' }
+    ],
+    subDistrict: [
+      { value: 'All Sub-Districts', th: 'ทุกแขวง' },
+      { value: 'Khlong Toei', th: 'คลองเตย' },
+      { value: 'Khlong Tan', th: 'คลองตัน' },
+      { value: 'Phra Khanong', th: 'พระโขนง' },
+      { value: 'Lumphini', th: 'ลุมพินี' }
+    ],
+    street: [
+      { value: 'All Streets', th: 'ทุกถนน' },
+      { value: 'Sukhumvit Road', th: 'ถนนสุขุมวิท' }
+    ],
+    alley: [
+      { value: 'All Alleys', th: 'ทุกซอย' },
+      { value: 'Sukhumvit Soi 1', th: 'สุขุมวิท ซอย 1' },
+      { value: 'Sukhumvit Soi 3 (Nana Nuea)', th: 'สุขุมวิท ซอย 3 (นานาเหนือ)' },
+      { value: 'Sukhumvit Soi 11', th: 'สุขุมวิท ซอย 11' },
+      { value: 'Sukhumvit Soi 21 (Asok)', th: 'สุขุมวิท ซอย 21 (อโศก)' }
+    ]
   };
 
 
@@ -70,17 +99,17 @@ const FilterBar = ({ onFilterChange, language }) => {
   return (
     <div className="filter-bar">
       <div className="filter-row">
-        {shopCategories.map((type) => (
+        {shopCategories.map((cat) => (
           <button
-            key={type}
-            className={`filter-button ${selectedFilters.category === type ? 'active' : ''}`}
+            key={cat.value}
+            className={`filter-button ${selectedFilters.category === cat.value ? 'active' : ''}`}
             onClick={() => {
-              const updated = { ...selectedFilters, category: type, onlineType: '' };
+              const updated = { ...selectedFilters, category: cat.value, onlineType: '' };
               setSelectedFilters(updated);
               onFilterChange(updated);
             }}
           >
-            {type}
+            {language === 'en' ? cat.value : cat.th}
           </button>
         ))}
       </div>
@@ -89,15 +118,15 @@ const FilterBar = ({ onFilterChange, language }) => {
         <div className="filter-row">
           {onlineTypes.map((opt) => (
             <button
-              key={opt}
-              className={`filter-button ${selectedFilters.onlineType === opt ? 'active' : ''}`}
+              key={opt.value}
+              className={`filter-button ${selectedFilters.onlineType === opt.value ? 'active' : ''}`}
               onClick={() => {
-                const updated = { ...selectedFilters, onlineType: opt };
+                const updated = { ...selectedFilters, onlineType: opt.value };
                 setSelectedFilters(updated);
                 onFilterChange(updated);
               }}
             >
-              {opt}
+              {language === 'en' ? opt.value : opt.th}
             </button>
           ))}
         </div>
@@ -118,11 +147,11 @@ const FilterBar = ({ onFilterChange, language }) => {
           <div key={level} className="filter-row">
             {options.map((option) => (
               <button
-                key={option}
-                className={`filter-button ${selectedFilters[level] === option ? 'active' : ''}`}
-                onClick={() => handleFilterClick(level, option)}
+                key={option.value}
+                className={`filter-button ${selectedFilters[level] === option.value ? 'active' : ''}`}
+                onClick={() => handleFilterClick(level, option.value)}
               >
-                {option}
+                {language === 'en' ? option.value : option.th}
               </button>
             ))}
           </div>
