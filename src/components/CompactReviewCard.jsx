@@ -8,7 +8,7 @@ const CompactReviewCard = ({ item, onDetails }) => {
   const avatarLetter = review ? review.author.charAt(0).toUpperCase() : '';
 
   return (
-    <div className="compact-review-card bg-[#23272f]">
+    <div className="compact-review-card">
       <div className="crc-header">
         <h3 className="crc-title">{item.itemName}</h3>
         <div className="crc-rating">
@@ -18,6 +18,7 @@ const CompactReviewCard = ({ item, onDetails }) => {
           <span className="crc-review-count">{item.reviewCount || 0}</span>
         </div>
       </div>
+
       <div className="crc-tags">
         {item.category && (
           <span className="crc-badge">
@@ -29,6 +30,7 @@ const CompactReviewCard = ({ item, onDetails }) => {
           <span className="crc-badge">{item.location.city}</span>
         )}
       </div>
+
       {review && (
         <div className="crc-quote">
           <div className="crc-avatar">{avatarLetter}</div>
@@ -41,6 +43,7 @@ const CompactReviewCard = ({ item, onDetails }) => {
           </div>
         </div>
       )}
+
       <button type="button" className="crc-details" onClick={() => onDetails && onDetails(item)}>
         View details <ArrowRight size={14} />
       </button>

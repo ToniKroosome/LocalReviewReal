@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --card-bg: #1f2937;
+  --card-bg: #23272f; /* You may switch to #1f2937 if preferred */
 }
 
 /* Global body styles for consistent layout */
