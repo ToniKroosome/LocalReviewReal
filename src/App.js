@@ -681,20 +681,20 @@ const App = () => {
     });
     // Multi-criteria filtering block
     const filteredReviews = reviews.filter(item => {
-        const matchesSearch = item.itemName.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesMainCategory = selectedMainCategory === 'all' || item.mainCategory === selectedMainCategory;
-        const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
-        const matchesSubCategory = selectedSubCategory === 'all' || item.subCategory === selectedSubCategory;
-        const matchesCity = selectedCityFilter === 'all' || (item.location && item.location.city === selectedCityFilter);
-        const matchesDistrict = selectedDistrictFilter === 'all' || (item.location && item.location.district === selectedDistrictFilter);
-        const matchesZone = selectedZoneFilter === 'all' || (item.location && item.location.zone === selectedZoneFilter);
-        const matchesSubDistrict = selectedSubDistrictFilter === 'all' || (item.location && item.location.subDistrict === selectedSubDistrictFilter);
-        const matchesStreet = selectedStreetFilter === 'all' || (item.location && item.location.street === selectedStreetFilter);
-        const matchesAlley = selectedAlleyFilter === 'all' || (item.location && item.location.alley === selectedAlleyFilter);
-        const matchesSpecificArea = selectedSpecificAreaFilter === '' || (item.location && item.location.specificArea && item.location.specificArea.toLowerCase().includes(selectedSpecificAreaFilter.toLowerCase()));
-        
-        return matchesSearch && matchesMainCategory && matchesCategory && matchesSubCategory && matchesCity && matchesDistrict && matchesZone && matchesSubDistrict && matchesStreet && matchesAlley && matchesSpecificArea;
-    });
+        const matchesSearch = item.itemName.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesMainCategory = selectedMainCategory === 'all' || item.mainCategory === selectedMainCategory;
+        const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+        const matchesSubCategory = selectedSubCategory === 'all' || item.subCategory === selectedSubCategory;
+        const matchesCity = selectedCityFilter === 'all' || (item.location && item.location.city === selectedCityFilter);
+        const matchesDistrict = selectedDistrictFilter === 'all' || (item.location && item.location.district === selectedDistrictFilter);
+        const matchesZone = selectedZoneFilter === 'all' || (item.location && item.location.zone === selectedZoneFilter);
+        const matchesSubDistrict = selectedSubDistrictFilter === 'all' || (item.location && item.location.subDistrict === selectedSubDistrictFilter);
+        const matchesStreet = selectedStreetFilter === 'all' || (item.location && item.location.street === selectedStreetFilter);
+        const matchesAlley = selectedAlleyFilter === 'all' || (item.location && item.location.alley === selectedAlleyFilter);
+        const matchesSpecificArea = selectedSpecificAreaFilter === '' || (item.location && item.location.specificArea && item.location.specificArea.toLowerCase().includes(selectedSpecificAreaFilter.toLowerCase()));
+
+        return matchesSearch && matchesMainCategory && matchesCategory && matchesSubCategory && matchesCity && matchesDistrict && matchesZone && matchesSubDistrict && matchesStreet && matchesAlley && matchesSpecificArea;
+    });
 
     const currentSelectedMainCategory = categories.find(cat => cat.value === selectedMainCategory);
     const categoriesForFilter = currentSelectedMainCategory?.platforms || currentSelectedMainCategory?.subcategories || [];
