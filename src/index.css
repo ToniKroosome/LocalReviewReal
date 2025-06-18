@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --card-bg: #23272f;
+}
+
 /* Global body styles for consistent layout */
 body {
   @apply m-0 bg-gray-950 text-gray-100 font-sans;
