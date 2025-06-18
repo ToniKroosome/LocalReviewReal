@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sparkles } from 'lucide-react';
-import ReviewItem from './ReviewItem';
+import CompactReviewCard from './CompactReviewCard';
 
 const ItemList = ({
   filteredReviews,
@@ -17,7 +17,7 @@ const ItemList = ({
   generateImage,
 }) => (
   <main className="max-w-7xl mx-auto px-4 py-8">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {!isAuthReady ? (
         <div className="text-center py-20 col-span-full">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-full mb-4">
@@ -27,17 +27,10 @@ const ItemList = ({
         </div>
       ) : filteredReviews.length > 0 ? (
         filteredReviews.map((item) => (
-          <ReviewItem
+          <CompactReviewCard
             key={item.id}
-            generateImage={generateImage}
             item={item}
-            onClick={handleItemClick}
-            language={language}
-            categories={categories}
-            citiesData={citiesData}
-            bangkokStreetsData={bangkokStreetsData}
-            generatedImages={generatedImages}
-            setGeneratedImages={setGeneratedImages}
+            onDetails={handleItemClick}
           />
         ))
       ) : (
