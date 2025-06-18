@@ -78,20 +78,28 @@ const FilterBar = ({ onFilterChange, language }) => {
     const levels = Object.keys(locationLevels);
     const currentIndex = levels.indexOf(level);
 
-    levels.forEach((filterLevel, index) => {
-      if (index === currentIndex) {
-        updatedFilters[filterLevel] = value;
-      } else if (index > currentIndex) {
-        updatedFilters[filterLevel] = '';
-      }
-    });
+    if (updatedFilters[level] === value) {
+      // toggle off
+      levels.slice(currentIndex).forEach((l) => {
+        updatedFilters[l] = '';
+      });
+    } else {
+      levels.forEach((filterLevel, index) => {
+        if (index === currentIndex) {
+          updatedFilters[filterLevel] = value;
+        } else if (index > currentIndex) {
+          updatedFilters[filterLevel] = '';
+        }
+      });
+    }
 
     setSelectedFilters(updatedFilters);
     onFilterChange(updatedFilters);
   };
 
   const handleShopTypeSelect = (value) => {
-    const updated = { ...selectedFilters, shopType: value };
+    const newValue = selectedFilters.shopType === value ? '' : value;
+    const updated = { ...selectedFilters, shopType: newValue };
     setSelectedFilters(updated);
     onFilterChange(updated);
   };
@@ -104,7 +112,8 @@ const FilterBar = ({ onFilterChange, language }) => {
             key={cat.value}
             className={`filter-button ${selectedFilters.category === cat.value ? 'active' : ''}`}
             onClick={() => {
-              const updated = { ...selectedFilters, category: cat.value, onlineType: '' };
+              const newCategory = selectedFilters.category === cat.value ? '' : cat.value;
+              const updated = { ...selectedFilters, category: newCategory, onlineType: '' };
               setSelectedFilters(updated);
               onFilterChange(updated);
             }}
@@ -121,7 +130,8 @@ const FilterBar = ({ onFilterChange, language }) => {
               key={opt.value}
               className={`filter-button ${selectedFilters.onlineType === opt.value ? 'active' : ''}`}
               onClick={() => {
-                const updated = { ...selectedFilters, onlineType: opt.value };
+                const newVal = selectedFilters.onlineType === opt.value ? '' : opt.value;
+                const updated = { ...selectedFilters, onlineType: newVal };
                 setSelectedFilters(updated);
                 onFilterChange(updated);
               }}
