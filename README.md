@@ -5,7 +5,7 @@ import CategoryTabs from './components/CategoryTabs';
 import MultiLayerToggleDemo from './components/MultiLayerToggleDemo';
 import Dropdown from './components/Dropdown';
 import CompactReviewCard from './components/CompactReviewCard';
-import ReviewFormModal from './components/ReviewFormModal'; // ✅ only import, no redeclare!
+import ReviewFormModal from './components/ReviewFormModal';
 
 import categories from './data/categories';
 import citiesData from './data/citiesData';
