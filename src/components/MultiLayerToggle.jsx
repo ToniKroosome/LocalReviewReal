@@ -8,6 +8,7 @@ import '../styles/MultiLayerToggle.css';
  * - type: "shop" | "location" (controls color palette)
  * - selectedId: currently selected node id
  * - onSelect: callback when a leaf or node is clicked
+ * - language: "en" | "th" (optional, defaults to "en")
  */
 // Base HSL values for the two category types. Deeper layers lighten the color
 // so the hierarchy is easy to follow at a glance.
