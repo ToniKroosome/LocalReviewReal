@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ShopTypeFilter from './ShopTypeFilter';
 
 const FilterBar = ({ onFilterChange, language }) => {
   const [selectedFilters, setSelectedFilters] = useState({
@@ -60,6 +61,12 @@ const FilterBar = ({ onFilterChange, language }) => {
     onFilterChange(updatedFilters);
   };
 
+  const handleShopTypeSelect = (value) => {
+    const updated = { ...selectedFilters, shopType: value };
+    setSelectedFilters(updated);
+    onFilterChange(updated);
+  };
+
   return (
     <div className="filter-bar">
       <div className="filter-row">
@@ -95,6 +102,11 @@ const FilterBar = ({ onFilterChange, language }) => {
           ))}
         </div>
       )}
+
+      <ShopTypeFilter
+        selected={selectedFilters.shopType}
+        onSelect={handleShopTypeSelect}
+      />
 
       {Object.entries(locationLevels).map(([level, options]) => {
         const prevLevel = Object.keys(locationLevels)[Object.keys(locationLevels).indexOf(level) - 1];
