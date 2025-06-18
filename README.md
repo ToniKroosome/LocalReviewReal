@@ -109,3 +109,17 @@ function App() {
 Demo categories are defined in `src/data/multiLayerCategories.js`. Styles live in `src/styles/MultiLayerToggle.css`.
 
 The demo includes a language toggle showing English and Thai labels and a small search box to filter categories.
+## Simple Dropdown Component
+
+`Dropdown` displays a compact trigger button that expands into a large scrollable menu when clicked.
+
+```jsx
+import Dropdown from './components/Dropdown';
+
+function Example() {
+  const options = ['One', 'Two', 'Three', 'Four'];
+  return <Dropdown options={options} onSelect={(o) => console.log(o)} />;
+}
+```
+
+Styles live in `src/styles/Dropdown.css`.
