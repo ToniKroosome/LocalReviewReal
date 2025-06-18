@@ -1,3 +1,4 @@
+import { MessageCircle, Globe, ChevronDown } from 'lucide-react';
 import React, { useState, useEffect } from "react";
 import { Camera, CheckCircle, MapPin } from "lucide-react";
 import StarRating from "./StarRating";

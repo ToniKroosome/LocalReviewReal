@@ -1,3 +1,4 @@
+import StarRating from './components/StarRating';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Search, Star, Camera, CheckCircle, User, TrendingUp, Calendar, Filter, Plus, X, ChevronDown, LogOut, Sparkles, MapPin, Globe, Heart, MessageCircle, Award, Clock, ArrowLeft } from 'lucide-react';
 import { initialSampleReviews } from './data/sampleReviews';
@@ -880,51 +881,55 @@ const [showSearchBar, setShowSearchBar] = useState(true); // State for search ba
         );
     }
     
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 font-sans antialiased pt-12">
-            {/* Enhanced Header */}
-            <Header
-                showHeader={showHeader}
-                toggleSearchBar={() => setShowSearchBar(prev => !prev)}
-                toggleFilters={() => setShowFilters(prev => !prev)}
-                user={user}
-                handleLogin={handleLogin}
-                handleLogout={handleLogout}
-                setShowReviewForm={setShowReviewForm}
-                language={language}
-                setLanguage={setLanguage}
-                GoogleIcon={GoogleIcon}
-            />
+ return (
+  <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 font-sans antialiased pt-12">
+    {/* Enhanced Header */}
+    <Header
+      showHeader={showHeader}
+      toggleSearchBar={() => setShowSearchBar(prev => !prev)}
+      toggleFilters={() => setShowFilters(prev => !prev)}
+      user={user}
+      handleLogin={handleLogin}
+      handleLogout={handleLogout}
+      setShowReviewForm={setShowReviewForm}
+      language={language}
+      setLanguage={setLanguage}
+      GoogleIcon={GoogleIcon}
+    />
 
-            {/* Main Content */}
-            <ItemList
-                filteredReviews={filteredReviews}
-                isAuthReady={isAuthReady}
-                handleItemClick={handleItemClick}
-                language={language}
-                categories={categories}
-                citiesData={citiesData}
-                bangkokStreetsData={bangkokStreetsData}
-                generatedImages={generatedImages}
-                setGeneratedImages={setGeneratedImages}
-                isLoadingNoMatchingReviewsMessage={isLoadingNoMatchingReviewsMessage}
-                noMatchingReviewsMessage={noMatchingReviewsMessage}
-                generateImage={generateImage}
+    {/* Main Content */}
+    <ItemList
+      filteredReviews={filteredReviews}
+      isAuthReady={isAuthReady}
+      handleItemClick={handleItemClick}
+      language={language}
+      categories={categories}
+      citiesData={citiesData}
+      bangkokStreetsData={bangkokStreetsData}
+      generatedImages={generatedImages}
+      setGeneratedImages={setGeneratedImages}
+      isLoadingNoMatchingReviewsMessage={isLoadingNoMatchingReviewsMessage}
+      noMatchingReviewsMessage={noMatchingReviewsMessage}
+      generateImage={generateImage}
+    />
 
+    {/* Modal */}
+    {showReviewForm && (
+      <ReviewFormModal
+        show={showReviewForm}
+        onClose={() => setShowReviewForm(false)}
+        newReview={newReview}
+        setNewReview={setNewReview}
+        onSubmit={handleSubmitReview}
+        categories={categories}
+        citiesData={citiesData}
+        bangkokStreetsData={bangkokStreetsData}
+        language={language}
+      />
+    )}
+  </div>
+);
 
-            <ReviewFormModal
-                show={showReviewForm}
-                onClose={() => setShowReviewForm(false)}
-                newReview={newReview}
-                setNewReview={setNewReview}
-                onSubmit={handleSubmitReview}
-                categories={categories}
-                citiesData={citiesData}
-                bangkokStreetsData={bangkokStreetsData}
-                language={language}
-            />
-        </div>
-    );
 };
 
 export default App;
