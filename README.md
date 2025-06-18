@@ -93,3 +93,17 @@ function App() {
 ```
 
 Styles are defined in `src/styles/CategoryTabs.css`.
+
+## Multi-Layer Toggle Demo
+
+`MultiLayerToggle` renders a tree of buttons for shop types or locations. Each depth has its own shade and each type uses a separate color palette.
+
+```jsx
+import MultiLayerToggleDemo from './components/MultiLayerToggleDemo';
+
+function App() {
+  return <MultiLayerToggleDemo />;
+}
+```
+
+Demo categories are defined in `src/data/multiLayerCategories.js`. Styles live in `src/styles/MultiLayerToggle.css`.
