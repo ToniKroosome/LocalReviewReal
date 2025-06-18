@@ -107,3 +107,5 @@ function App() {
 ```
 
 Demo categories are defined in `src/data/multiLayerCategories.js`. Styles live in `src/styles/MultiLayerToggle.css`.
+
+The demo includes a language toggle showing English and Thai labels.
