@@ -84,3 +84,4 @@ function App() {
 }
 
 export default App;
+`CompactReviewCard` presents a sleek summary of a review item using the Inter font and subtle shadows. The card uses a dark gray background via the `--card-bg` CSS variable to match the rest of the app. Recent style tweaks reduce padding and margin so the card height automatically fits its content. Only the first review quote is shown with an avatar and a verified badge.
