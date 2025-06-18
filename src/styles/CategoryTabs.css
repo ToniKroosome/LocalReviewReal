@@ -1,0 +1,39 @@
+.category-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.main-tabs,
+.sub-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.main-tab,
+.sub-tab {
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--tab-color, #2a2d3d);
+  color: #fff;
+  border: none;
+  opacity: 0.8;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.main-tab:hover,
+.sub-tab:hover {
+  opacity: 1;
+}
+
+.main-tab.active {
+  background: var(--tab-color);
+  opacity: 1;
+}
+
+.sub-tab.active {
+  background: #555;
+  opacity: 1;
+}

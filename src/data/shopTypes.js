@@ -44,5 +44,30 @@ export const shopTypes = [
         ]
       }
     ]
+  },
+  {
+    id: 'education',
+    name: 'Education',
+    children: [
+      { id: 'schools', name: 'Schools' },
+      { id: 'colleges', name: 'Colleges & Universities' }
+    ]
+  },
+  {
+    id: 'nightlife',
+    name: 'Nightlife',
+    children: [
+      { id: 'bars', name: 'Bars' },
+      { id: 'clubs', name: 'Night Clubs' }
+    ]
+  },
+  {
+    id: 'individuals',
+    name: 'Individuals',
+    children: [
+      { id: 'teachers', name: 'Teachers' },
+      { id: 'tutors', name: 'Tutors' },
+      { id: 'public-figures', name: 'Public Figures' }
+    ]
   }
 ];
