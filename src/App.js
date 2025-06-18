@@ -680,7 +680,7 @@ const App = () => {
         author: ''
     });
     // Multi-criteria filtering block
-    const filteredReviews = reviews.filter(item => {
+    const filteredReviews = reviews.filter((item) => {
         const matchesSearch = item.itemName.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesMainCategory = selectedMainCategory === 'all' || item.mainCategory === selectedMainCategory;
         const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
