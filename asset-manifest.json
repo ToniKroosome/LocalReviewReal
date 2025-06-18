@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/LocalReviewReal/static/css/main.5a99fd9a.css",
-    "main.js": "/LocalReviewReal/static/js/main.222c11ca.js",
+    "main.js": "/LocalReviewReal/static/js/main.f95e1b20.js",
     "static/js/453.7649aa0a.chunk.js": "/LocalReviewReal/static/js/453.7649aa0a.chunk.js",
     "index.html": "/LocalReviewReal/index.html",
     "main.5a99fd9a.css.map": "/LocalReviewReal/static/css/main.5a99fd9a.css.map",
-    "main.222c11ca.js.map": "/LocalReviewReal/static/js/main.222c11ca.js.map",
+    "main.f95e1b20.js.map": "/LocalReviewReal/static/js/main.f95e1b20.js.map",
     "453.7649aa0a.chunk.js.map": "/LocalReviewReal/static/js/453.7649aa0a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5a99fd9a.css",
-    "static/js/main.222c11ca.js"
+    "static/js/main.f95e1b20.js"
   ]
 }
