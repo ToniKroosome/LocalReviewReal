@@ -14,9 +14,12 @@ const Header = ({
   GoogleIcon,
 }) => (
   <header
-    className={`bg-gray-900/90 backdrop-blur-xl border-b border-gray-800/50 fixed top-0 w-full z-20 transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-full'}`}
+    className={`relative bg-gray-900/90 backdrop-blur-xl border-b border-gray-800/50 fixed top-0 w-full z-20 transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-full'}`}
     style={{ minHeight: '32px', padding: '0.15rem 0' }}
   >
+    <div className="absolute top-0 left-1 text-[10px] text-gray-400 pointer-events-none">
+      version 2
+    </div>
     <div className="max-w-4xl mx-auto flex items-center justify-between px-3 py-0.5 gap-2">
       <div className="flex items-center gap-2">
         <div className="w-6 h-6 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
