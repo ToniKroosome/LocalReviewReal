@@ -2,6 +2,15 @@
   margin: 8px 0;
   padding: 8px 0;
   border-top: 1px solid #2f313d;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shop-type-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .shop-type-button {
@@ -28,7 +37,7 @@
 
 .shop-type-children {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-top: 4px;
 }
