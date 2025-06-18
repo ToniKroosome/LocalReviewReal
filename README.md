@@ -123,3 +123,17 @@ function Example() {
 ```
 
 Styles live in `src/styles/Dropdown.css`.
+
+## Compact Review Card
+
+`CompactReviewCard` presents a sleek summary of a review item using the Inter font and subtle shadows. Only the first review quote is shown with an avatar and a verified badge.
+
+```jsx
+import CompactReviewCard from './components/CompactReviewCard';
+
+function ReviewExample({ item, onDetails }) {
+  return <CompactReviewCard item={item} onDetails={onDetails} />;
+}
+```
+
+Styles live in `src/styles/CompactReviewCard.css`.
