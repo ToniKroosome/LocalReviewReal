@@ -1,146 +1,86 @@
-# Getting Started with Create React App
+import React, { useState } from 'react';
+import './App.css';
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-## Category Navigation Example
-
-The new navigation uses two main categories with nested sub-categories. Data is stored in `src/data/navigationCategories.ts` and rendered with the `CategoryTabs` component.
-
-```ts
-export interface Category {
-  id: string;
-  label: string;
-  color?: string;
-  subCategories?: Category[];
-}
-```
-
-Use the component:
-
-```jsx
 import CategoryTabs from './components/CategoryTabs';
-
-function App() {
-  return <CategoryTabs />;
-}
-```
-
-Styles are defined in `src/styles/CategoryTabs.css`.
-
-## Multi-Layer Toggle Demo
-
-`MultiLayerToggle` renders a tree of buttons for shop types or locations. Each depth has its own shade and each type uses a separate color palette.
-
-```jsx
 import MultiLayerToggleDemo from './components/MultiLayerToggleDemo';
+import Dropdown from './components/Dropdown';
+import CompactReviewCard from './components/CompactReviewCard';
+import ReviewFormModal from './components/ReviewFormModal';
+
+import categories from './data/categories';
+import citiesData from './data/citiesData';
+import bangkokStreetsData from './data/bangkokStreetsData';
 
 function App() {
-  return <MultiLayerToggleDemo />;
+  const [showModal, setShowModal] = useState(false);
+  const [newReview, setNewReview] = useState({
+    title: '',
+    mainCategory: '',
+    category: '',
+    subCategory: '',
+    city: '',
+    district: '',
+    detail: '',
+    tags: ['เปิดดึก', 'คนซ่อมใจดี'],
+    rating: 0,
+  });
+
+  const handleSubmit = () => {
+    console.log('Submitted:', newReview);
+    setShowModal(false);
+  };
+
+  const exampleItem = {
+    id: 'sample-1',
+    itemName: 'Local Car Repair',
+    mainCategory: 'Real World',
+    category: 'Local Services',
+    subCategory: 'Mechanics',
+    location: { city: 'Bangkok', district: 'Lat Phrao' },
+    rating: 4.5,
+    reviewCount: 23,
+    reviews: [
+      {
+        id: 1,
+        author: 'Sarah K.',
+        rating: 5,
+        date: '2024-03-15',
+        comment: 'Quick and honest car repair.',
+        verified: true,
+        helpful: 15,
+      },
+    ],
+  };
+
+  return (
+    <div className="App p-4">
+      <h1 className="text-xl font-bold mb-4">รีวิวท้องถิ่น</h1>
+
+      <button
+        onClick={() => setShowModal(true)}
+        className="bg-blue-600 text-white px-4 py-2 rounded mb-4"
+      >
+        เขียนรีวิว
+      </button>
+
+      <CategoryTabs />
+      <MultiLayerToggleDemo />
+      <Dropdown options={['One', 'Two', 'Three']} onSelect={(o) => console.log(o)} />
+      <CompactReviewCard item={exampleItem} onDetails={() => {}} />
+
+      <ReviewFormModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        newReview={newReview}
+        setNewReview={setNewReview}
+        onSubmit={handleSubmit}
+        categories={categories}
+        citiesData={citiesData}
+        bangkokStreetsData={bangkokStreetsData}
+        language="th"
+      />
+    </div>
+  );
 }
-```
 
-Demo categories are defined in `src/data/multiLayerCategories.js`. Styles live in `src/styles/MultiLayerToggle.css`.
-
-The demo includes a language toggle showing English and Thai labels and a small search box to filter categories.
-## Simple Dropdown Component
-
-`Dropdown` displays a compact trigger button that expands into a large scrollable menu when clicked.
-
-```jsx
-import Dropdown from './components/Dropdown';
-
-function Example() {
-  const options = ['One', 'Two', 'Three', 'Four'];
-  return <Dropdown options={options} onSelect={(o) => console.log(o)} />;
-}
-```
-
-Styles live in `src/styles/Dropdown.css`.
-
-## Compact Review Card
-
-`CompactReviewCard` presents a sleek summary of a review item using the Inter font and subtle shadows. The card uses a dark gray background via the `--card-bg` CSS variable to match the rest of the app. Recent style tweaks reduce padding and margin so the card height automatically fits its content. Only the first review quote is shown with an avatar and a verified badge.
-
-```jsx
-import CompactReviewCard from './components/CompactReviewCard';
-
-function ReviewExample({ item, onDetails }) {
-  return <CompactReviewCard item={item} onDetails={onDetails} />;
-}
-```
-
-Styles live in `src/styles/CompactReviewCard.css`.
-
-`ItemList` now renders each shop using `CompactReviewCard` by default and
-includes a button to switch to the image-rich `ReviewItem` view.
-The image view limits each `ReviewItem` card to about 18rem wide so more
-cards fit on large screens while remaining responsive. Recent style tweaks
-drastically shorten each card to roughly one-quarter its original height so the
-grid shows many more items at once.
+export default App;

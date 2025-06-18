@@ -18,6 +18,7 @@ const CompactReviewCard = ({ item, onDetails }) => {
           <span className="crc-review-count">{item.reviewCount || 0}</span>
         </div>
       </div>
+
       <div className="crc-tags">
         {item.category && (
           <span className="crc-badge">
@@ -29,6 +30,7 @@ const CompactReviewCard = ({ item, onDetails }) => {
           <span className="crc-badge">{item.location.city}</span>
         )}
       </div>
+
       {review && (
         <div className="crc-quote">
           <div className="crc-avatar">{avatarLetter}</div>
@@ -41,6 +43,7 @@ const CompactReviewCard = ({ item, onDetails }) => {
           </div>
         </div>
       )}
+
       <button type="button" className="crc-details" onClick={() => onDetails && onDetails(item)}>
         View details <ArrowRight size={14} />
       </button>
