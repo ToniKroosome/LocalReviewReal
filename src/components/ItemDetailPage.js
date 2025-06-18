@@ -134,8 +134,8 @@ useEffect(() => {
                     <h2 className="text-xl font-bold text-gray-100 truncate">{item.itemName}</h2>
                 </div>
             </header>
-            <main className="max-w-4xl mx-auto p-4 md:p-8">
-                 <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl shadow-xl border border-gray-700/50 p-6 md:p-8 relative overflow-hidden">
+            <main className="max-w-3xl mx-auto p-4 md:p-6">
+                <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl shadow-xl border border-gray-700/50 p-4 md:p-6 relative overflow-hidden">
                     {/* Background decoration */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-purple-500/10 to-blue-500/10 rounded-full blur-3xl" />
                     
@@ -159,7 +159,7 @@ useEffect(() => {
                                 <Camera size={64} className="text-gray-500"/>
                             </div>
                         )}
-                        <h2 className="text-3xl font-bold text-gray-100 mb-6 tracking-tight">{item.itemName}</h2>
+                        <h2 className="text-2xl font-bold text-gray-100 mb-4 tracking-tight">{item.itemName}</h2>
                         
                         <div className="mb-6 flex flex-wrap gap-2">
                             <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-purple-300 border border-purple-500/20 backdrop-blur-sm">
@@ -173,10 +173,10 @@ useEffect(() => {
                             )}
                         </div>
 
-                        <div className="mb-8 p-6 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50">
+                        <div className="mb-6 p-4 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50">
                             <div className="flex items-center gap-6">
                                 <div className="text-center">
-                                    <span className="text-5xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
+                                    <span className="text-4xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
                                         {item.rating ? item.rating.toFixed(1) : 'N/A'}
                                     </span>
                                     <p className="text-sm text-gray-400 mt-1">
@@ -192,7 +192,7 @@ useEffect(() => {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4 mb-8">
+                        <div className="grid grid-cols-2 gap-4 mb-6">
                             <div className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 backdrop-blur-sm rounded-xl p-4 border border-gray-700/50">
                                 <div className="flex items-center gap-2 text-purple-400 mb-2">
                                     <TrendingUp size={18} />

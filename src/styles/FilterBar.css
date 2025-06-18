@@ -35,3 +35,17 @@
   background: #14cba8;
   opacity: 1;
 }
+
+.filter-select {
+  padding: 8px 12px;
+  background: #2a2d3d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.filter-select:focus {
+  outline: none;
+  background: #3a3d4d;
+}

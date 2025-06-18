@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { categories } from '../data/categories';
 
-const FilterBar = ({ onFilterChange }) => {
+const FilterBar = ({ onFilterChange, language }) => {
   const [selectedFilters, setSelectedFilters] = useState({
     category: 'All',
+    shopType: '',
     city: '',
     district: '',
     zone: '',
@@ -10,6 +12,27 @@ const FilterBar = ({ onFilterChange }) => {
     street: '',
     alley: ''
   });
+
+  const shopTypeOptions = useMemo(() => {
+    const types = [];
+    categories.forEach(cat => {
+      const subcats = cat.subcategories || cat.platforms || [];
+      subcats.forEach(sc => {
+        types.push({ value: sc.value, label: sc.label, label_th: sc.label_th });
+        if (sc.subcategories) {
+          sc.subcategories.forEach(s2 =>
+            types.push({ value: s2.value, label: s2.label, label_th: s2.label_th })
+          );
+        }
+      });
+    });
+    const seen = new Set();
+    return types.filter(t => {
+      if (seen.has(t.value)) return false;
+      seen.add(t.value);
+      return true;
+    });
+  }, []);
 
   const filterLevels = {
     category: ['All Categories', 'Online', 'Real World', 'Local Services', 'Facebook Marketplace', 
@@ -41,6 +64,26 @@ const FilterBar = ({ onFilterChange }) => {
 
   return (
     <div className="filter-bar">
+      <div className="filter-row">
+        <select
+          className="filter-select"
+          value={selectedFilters.shopType}
+          onChange={(e) => {
+            const updated = { ...selectedFilters, shopType: e.target.value };
+            setSelectedFilters(updated);
+            onFilterChange(updated);
+          }}
+        >
+          <option value="">
+            {language === 'en' ? 'All Types' : 'ทุกประเภท'}
+          </option>
+          {shopTypeOptions.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {language === 'en' ? opt.label : opt.label_th}
+            </option>
+          ))}
+        </select>
+      </div>
       {Object.entries(filterLevels).map(([level, options]) => {
         const shouldShow = level === 'category' ||
           (selectedFilters[Object.keys(filterLevels)[Object.keys(filterLevels).indexOf(level) - 1]] !== '');
