@@ -897,6 +897,37 @@ const [showSearchBar, setShowSearchBar] = useState(true); // State for search ba
       GoogleIcon={GoogleIcon}
     />
 
+      {showSearchBar && (
+        <div className="px-4 py-2">
+          <div className="relative">
+            <Search className="absolute left-3 top-2.5 text-gray-400" size={16} />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={language === 'en' ? 'Search...' : 'ค้นหา...'}
+              className="w-full pl-8 pr-3 py-2 rounded-md bg-gray-800 placeholder-gray-500 text-sm focus:outline-none"
+            />
+          </div>
+        </div>
+      )}
+
+      {showFilters && (
+        <div className="px-4 py-2">
+          <select
+            value={selectedMainCategory}
+            onChange={(e) => setSelectedMainCategory(e.target.value)}
+            className="bg-gray-800 text-sm rounded-md p-2"
+          >
+            {categories.filter(c => c.isTopLevel).map(cat => (
+              <option key={cat.value} value={cat.value}>
+                {language === 'en' ? cat.label : cat.label_th}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
     {/* Main Content */}
     <ItemList
       filteredReviews={filteredReviews}
