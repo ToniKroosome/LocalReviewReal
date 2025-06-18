@@ -1,3 +1,5 @@
+import { initialSampleReviews } from '../data/sampleReviews';
+
 // MOCK USER DATA
 const mockUser = {
     uid: 'mock-google-user-123',
