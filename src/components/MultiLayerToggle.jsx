@@ -4,19 +4,27 @@ import '../styles/MultiLayerToggle.css';
 /**
  * Recursive toggle tree for categories or locations.
  * Props:
- * - data: array of category nodes { id, label, children? }
+ * - data: array of category nodes { id, label, label_th?, children? }
  * - type: "shop" | "location" (controls color palette)
  * - selectedId: currently selected node id
  * - onSelect: callback when a leaf or node is clicked
+ * - language: "en" | "th" (optional, defaults to "en")
  */
-const colorPalettes = {
-  shop: ['#0d47a1', '#1976d2', '#64b5f6'],
-  location: ['#2e7d32', '#66bb6a', '#a5d6a7']
+// Base HSL values for the two category types. Deeper layers lighten the color
+// so the hierarchy is easy to follow at a glance.
+const baseHsl = {
+  shop: [210, 100, 35], // dark blue
+  location: [120, 50, 32] // dark green
 };
 
-const ToggleItem = ({ node, depth, type, selectedId, onSelect }) => {
-  const colors = colorPalettes[type] || [];
-  const color = colors[Math.min(depth, colors.length - 1)] || '#555';
+const getShade = (type, depth) => {
+  const [h, s, l] = baseHsl[type] || [0, 0, 50];
+  const lightness = Math.min(l + depth * 12, 85); // lighten for deeper levels
+  return `hsl(${h}, ${s}%, ${lightness}%)`;
+};
+
+const ToggleItem = ({ node, depth, type, selectedId, onSelect, language }) => {
+  const color = getShade(type, depth);
   const isSelected = selectedId === node.id;
 
   return (
@@ -26,7 +34,7 @@ const ToggleItem = ({ node, depth, type, selectedId, onSelect }) => {
         style={{ '--chip-color': color }}
         onClick={() => onSelect(node.id)}
       >
-        {node.label}
+        {language === 'th' && node.label_th ? node.label_th : node.label}
       </button>
       {node.children && (
         <div className="toggle-children">
@@ -38,6 +46,7 @@ const ToggleItem = ({ node, depth, type, selectedId, onSelect }) => {
               type={type}
               selectedId={selectedId}
               onSelect={onSelect}
+              language={language}
             />
           ))}
         </div>
@@ -46,7 +55,7 @@ const ToggleItem = ({ node, depth, type, selectedId, onSelect }) => {
   );
 };
 
-const MultiLayerToggle = ({ data, type, selectedId, onSelect }) => (
+const MultiLayerToggle = ({ data, type, selectedId, onSelect, language = 'en' }) => (
   <div className="multi-layer-toggle">
     {data.map(node => (
       <ToggleItem
@@ -56,6 +65,7 @@ const MultiLayerToggle = ({ data, type, selectedId, onSelect }) => (
         type={type}
         selectedId={selectedId}
         onSelect={onSelect}
+        language={language}
       />
     ))}
   </div>

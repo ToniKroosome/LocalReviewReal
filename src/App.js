@@ -87,7 +87,13 @@ const App = () => {
     });
     // Multi-criteria filtering block
     const filteredReviews = reviews.filter((item) => {
-        const matchesSearch = item.itemName.toLowerCase().includes(searchQuery.toLowerCase());
+        const q = searchQuery.toLowerCase();
+        const matchesSearch =
+            item.itemName.toLowerCase().includes(q) ||
+            item.category.toLowerCase().includes(q) ||
+            item.subCategory.toLowerCase().includes(q) ||
+            (item.location && item.location.city && item.location.city.toLowerCase().includes(q)) ||
+            (item.location && item.location.district && item.location.district.toLowerCase().includes(q));
         const matchesMainCategory = selectedMainCategory === 'all' || item.mainCategory === selectedMainCategory;
         const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
         const matchesSubCategory = selectedSubCategory === 'all' || item.subCategory === selectedSubCategory;
