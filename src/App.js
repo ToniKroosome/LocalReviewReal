@@ -25,12 +25,13 @@ const App = () => {
     const [page, setPage] = useState('home'); // 'home' or 'detail'
     const [selectedItem, setSelectedItem] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [language, setLanguage] = useState('en');
+    const [language, setLanguage] = useState(() => localStorage.getItem('language') || 'en');
     const [selectedMainCategory, setSelectedMainCategory] = useState('all');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedSubCategory, setSelectedSubCategory] = useState('all');
     const [selectedFilters, setSelectedFilters] = useState({
         category: 'All Categories',
+        shopType: '',
         city: '',
         district: '',
         zone: '',
@@ -48,6 +49,10 @@ const App = () => {
     // Visibility states for search and filter UI controlled by Header buttons
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
+
+    useEffect(() => {
+        localStorage.setItem('language', language);
+    }, [language]);
     const toggleSearchBar = () => setShowSearchBar(v => !v);
     const toggleFilters = () => setShowFilters(v => !v);
 
@@ -93,9 +98,10 @@ const App = () => {
         const matchesSubDistrict = !selectedFilters.subDistrict || selectedFilters.subDistrict.startsWith('All') || (item.location && item.location.subDistrict === selectedFilters.subDistrict);
         const matchesStreet = !selectedFilters.street || selectedFilters.street.startsWith('All') || (item.location && item.location.street === selectedFilters.street);
         const matchesAlley = !selectedFilters.alley || selectedFilters.alley.startsWith('All') || (item.location && item.location.alley === selectedFilters.alley);
+        const matchesShopType = !selectedFilters.shopType || selectedFilters.shopType.startsWith('All') || item.subCategory === selectedFilters.shopType;
 
         return matchesSearch && matchesMainCategory && matchesCategory && matchesSubCategory &&
-            matchesCategoryBar && matchesCity && matchesDistrict && matchesZone && matchesSubDistrict && matchesStreet && matchesAlley;
+            matchesCategoryBar && matchesCity && matchesDistrict && matchesZone && matchesSubDistrict && matchesStreet && matchesAlley && matchesShopType;
     });
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -277,7 +283,7 @@ const App = () => {
       )}
 
       {showFilters && (
-        <FilterBar onFilterChange={handleFilterChange} />
+        <FilterBar onFilterChange={handleFilterChange} language={language} />
       )}
 
     {/* Main Content */}
