@@ -109,3 +109,34 @@ function App() {
 Demo categories are defined in `src/data/multiLayerCategories.js`. Styles live in `src/styles/MultiLayerToggle.css`.
 
 The demo includes a language toggle showing English and Thai labels and a small search box to filter categories.
+## Simple Dropdown Component
+
+`Dropdown` displays a compact trigger button that expands into a large scrollable menu when clicked.
+
+```jsx
+import Dropdown from './components/Dropdown';
+
+function Example() {
+  const options = ['One', 'Two', 'Three', 'Four'];
+  return <Dropdown options={options} onSelect={(o) => console.log(o)} />;
+}
+```
+
+Styles live in `src/styles/Dropdown.css`.
+
+## Compact Review Card
+
+`CompactReviewCard` presents a sleek summary of a review item using the Inter font and subtle shadows. The card uses a dark gray background via the `--card-bg` CSS variable to match the rest of the app. Only the first review quote is shown with an avatar and a verified badge.
+
+```jsx
+import CompactReviewCard from './components/CompactReviewCard';
+
+function ReviewExample({ item, onDetails }) {
+  return <CompactReviewCard item={item} onDetails={onDetails} />;
+}
+```
+
+Styles live in `src/styles/CompactReviewCard.css`.
+
+`ItemList` now renders each shop using `CompactReviewCard` by default and
+includes a button to switch to the image-rich `ReviewItem` view.
