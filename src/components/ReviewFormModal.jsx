@@ -52,7 +52,8 @@ const ReviewFormModal = ({ show, onClose, newReview, setNewReview, onSubmit, cat
     const selectedStreetInForm = streetsForForm.find(s => s.value === newReview.location.street);
 const alleysForForm = selectedStreetInForm?.alleys || [];
 
-    const inputClasses = "w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 bg-gray-800/50 border-gray-700 text-gray-100 placeholder-gray-500 backdrop-blur-sm transition-all duration-300";
+    const inputClasses =
+        "w-full px-3 py-2 bg-gray-800/60 border border-gray-600 rounded-md text-sm text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition";
 
     const showLocationFields = newReview.mainCategory === 'Real World';
     
@@ -120,9 +121,9 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
 
 
     return (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50" aria-modal="true" role="dialog">
-            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl shadow-2xl max-w-lg w-full p-8 text-gray-100 max-h-[90vh] overflow-y-auto border border-gray-700/50 scrollbar-hide">
-                <div className="flex justify-between items-center mb-6">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50" aria-modal="true" role="dialog">
+            <div className="bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 rounded-xl shadow-2xl shadow-black/80 max-w-lg w-full p-6 text-gray-100 max-h-[90vh] overflow-y-auto border border-gray-700/50 scrollbar-hide">
+                <div className="flex justify-between items-center mb-4">
                     <div>
                         <h2 className="text-2xl font-bold text-gray-100">{language === 'en' ? "Write a Review" : "เขียนรีวิว"}</h2>
                         <p className="text-sm text-gray-400 mt-1">{language === 'en' ? "Share your experience" : "แบ่งปันประสบการณ์ของคุณ"}</p>
@@ -136,8 +137,9 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
                     </button>
                 </div>
                 
-                <div className="space-y-6">
-                    <div>
+                <div className="space-y-5">
+                    <div className="space-y-4 p-4 bg-gray-800/20 rounded-xl border border-gray-700/50">
+                        <div>
                         <label htmlFor="itemName" className="block text-sm font-semibold text-gray-300 mb-2">
                             {language === 'en' ? "What are you reviewing?" : "คุณกำลังรีวิวอะไร?"}
                         </label>
@@ -149,9 +151,9 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
                             placeholder={language === 'en' ? "e.g., John's Used Cars, @foodie_reviews_ny" : "เช่น รถมือสองของจอห์น, @รีวิวของอร่อยนิวยอร์ก"}
                             className={inputClasses}
                         />
-                    </div>
-                    
-                    <div>
+                        </div>
+
+                        <div>
                         <label htmlFor="mainCategory" className="block text-sm font-semibold text-gray-300 mb-2">
                             {language === 'en' ? "Main Category" : "หมวดหมู่หลัก"}
                         </label>
@@ -182,10 +184,10 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
                                 </option>
                             ))}
                         </select>
-                    </div>
+                        </div>
 
-                    {newReview.mainCategory && categoriesForForm.length > 0 && (
-                        <div>
+                        {newReview.mainCategory && categoriesForForm.length > 0 && (
+                        <div>
                             <label htmlFor="category" className="block text-sm font-semibold text-gray-300 mb-2">
                                 {newReview.mainCategory === 'Online' ? (language === 'en' ? 'Platform' : 'แพลตฟอร์ม') : (language === 'en' ? 'Category' : 'หมวดหมู่')}
                             </label>
@@ -202,11 +204,11 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
                                     </option>
                                 ))}
                             </select>
-                        </div>
-                    )}
+                        </div>
+                    )}
 
-                    {newReview.category && subcategoriesOrPlatformsForForm.length > 0 && (
-                        <div>
+                    {newReview.category && subcategoriesOrPlatformsForForm.length > 0 && (
+                        <div>
                             <label htmlFor="subCategory" className="block text-sm font-semibold text-gray-300 mb-2">
                                 {language === 'en' ? "Subcategory (Optional)" : "หมวดหมู่ย่อย (ไม่บังคับ)"}
                             </label>
@@ -223,8 +225,9 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
                                     </option>
                                 ))}
                             </select>
-                        </div>
-                    )}
+                        </div>
+                    )}
+                    </div>
 
                     {showLocationFields && (
                         <div className="space-y-4 p-4 bg-gray-800/30 rounded-xl border border-gray-700/50">
@@ -447,21 +450,21 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
                         />
                     </div>
                     
-                    <div className="flex gap-3 pt-4">
-                        <button
-                            onClick={() => console.log(language === 'en' ? 'Photo upload functionality would be implemented here.' : 'ฟังก์ชันอัปโหลดรูปภาพจะถูกนำมาใช้ที่นี่')}
-                            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border-2 rounded-xl hover:bg-gray-800/50 border-gray-700 text-gray-300 hover:text-gray-100 transition-all duration-300 backdrop-blur-sm"
-                        >
-                            <Camera size={20} />
-                            {language === 'en' ? "Add Photos" : "เพิ่มรูปภาพ"}
-                        </button>
-                        <button
-                            onClick={() => onSubmit(newReview)}
-                            className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white rounded-xl transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                        >
-                            {language === 'en' ? "Submit Review" : "ส่งรีวิว"}
-                        </button>
-                    </div>
+                    <div className="flex gap-3 pt-4">
+                        <button
+                            onClick={() => console.log(language === 'en' ? 'Photo upload functionality would be implemented here.' : 'ฟังก์ชันอัปโหลดรูปภาพจะถูกนำมาใช้ที่นี่')}
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border rounded-lg border-gray-600 text-gray-300 hover:bg-gray-800/40 hover:text-gray-100 transition"
+                        >
+                            <Camera size={20} />
+                            {language === 'en' ? "Add Photos" : "เพิ่มรูปภาพ"}
+                        </button>
+                        <button
+                            onClick={() => onSubmit(newReview)}
+                            className="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold shadow-md hover:shadow-lg hover:from-purple-500 hover:to-blue-500 transition"
+                        >
+                            {language === 'en' ? "Submit Review" : "ส่งรีวิว"}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
