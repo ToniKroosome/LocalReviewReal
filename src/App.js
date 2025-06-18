@@ -12,6 +12,7 @@ import ReviewFormModal from "./components/ReviewFormModal";
 import { initScrollbarStyles } from "./utils/scrollbarStyles";
 import generateImage from "./utils/imageGeneration";
 import { signIn, signOut } from "./utils/auth";
+import { auth, onAuthStateChanged } from "./utils/mockFirebase";
 import { categories } from "./data/categories";
 import { citiesData } from "./data/citiesData";
 import { bangkokStreetsData } from "./data/bangkokStreetsData";
