@@ -1,10 +1,12 @@
 import StarRating from './components/StarRating';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Star, Camera, CheckCircle, User, TrendingUp, Calendar, Filter, Plus, X, ChevronDown, LogOut, Sparkles, MapPin, Globe, Heart, MessageCircle, Award, Clock, ArrowLeft } from 'lucide-react';
 import { initialSampleReviews } from './data/sampleReviews';
 import Header from './components/Header';
 import ItemList from './components/ItemList';
 import ItemDetailPage from './components/ItemDetailPage';
+import FilterBar from './components/FilterBar';
+import './styles/FilterBar.css';
 
 // --- Helper: Google Icon SVG ---
 const GoogleIcon = () => (
@@ -629,13 +631,15 @@ const App = () => {
     const [selectedMainCategory, setSelectedMainCategory] = useState('all');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [selectedSubCategory, setSelectedSubCategory] = useState('all');
-    const [selectedCityFilter, setSelectedCityFilter] = useState('all');
-    const [selectedDistrictFilter, setSelectedDistrictFilter] = useState('all');
-    const [selectedZoneFilter, setSelectedZoneFilter] = useState('all');
-    const [selectedSubDistrictFilter, setSelectedSubDistrictFilter] = useState('all');
-    const [selectedStreetFilter, setSelectedStreetFilter] = useState('all');
-    const [selectedAlleyFilter, setSelectedAlleyFilter] = useState('all');
-    const [selectedSpecificAreaFilter, setSelectedSpecificAreaFilter] = useState('');
+    const [selectedFilters, setSelectedFilters] = useState({
+        category: 'All Categories',
+        city: '',
+        district: '',
+        zone: '',
+        subDistrict: '',
+        street: '',
+        alley: ''
+    });
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [user, setUser] = useState(null); // Changed from userId to user object
@@ -663,6 +667,10 @@ const App = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [lastScrollY]);
 
+    const handleFilterChange = (filters) => {
+        setSelectedFilters(filters);
+    };
+
 
     // Data structures remain the same
     const categories = [ { value: 'all', label: 'All Categories', label_th: 'ทุกหมวดหมู่', icon: '🌐', isTopLevel: true }, { value: 'Online', label: 'Online', label_th: 'ออนไลน์', icon: '💻', isTopLevel: true, platforms: [ { value: 'Facebook', label: 'Facebook', label_th: 'เฟซบุ๊ก', subcategories: [ { value: 'Influencer', label: 'Influencer', label_th: 'อินฟลูเอนเซอร์' }, { value: 'Shop', label: 'Shop', label_th: 'ร้านค้า' }, { value: 'Page', label: 'Page', label_th: 'เพจ' }, { value: 'Group', label: 'Group', label_th: 'กลุ่ม' }, ] }, { value: 'Shopee', label: 'Shopee', label_th: 'ช้อปปี้', subcategories: [ { value: 'Shop', label: 'Shop', label_th: 'ร้านค้า' }, { value: 'Seller', label: 'Seller', label_th: 'ผู้ขาย' }, ] }, { value: 'Instagram', label: 'Instagram', label_th: 'อินสตาแกรม', subcategories: [ { value: 'Influencer', label: 'Influencer', label_th: 'อินฟลูเอนเซอร์' }, { value: 'Shop', label: 'Shop', label_th: 'ร้านค้า' }, ] }, { value: 'TikTok', label: 'TikTok', label_th: 'ติ๊กต็อก', subcategories: [ { value: 'Influencer', label: 'Influencer', label_th: 'อินฟลูเอนเซอร์' }, { value: 'Shop', label: 'Shop', label_th: 'ร้านค้า' }, ] }, { value: 'YouTube', label: 'YouTube', label_th: 'ยูทูป', subcategories: [ { value: 'Channel', label: 'Channel', label_th: 'ช่อง' }, { value: 'Content Creator', label: 'Content Creator', label_th: 'ผู้สร้างเนื้อหา' }, ] }, { value: 'Telegram', label: 'Telegram', label_th: 'เทเลแกรม', subcategories: [ { value: 'Group', label: 'Group', label_th: 'กลุ่ม' }, { value: 'Channel', label: 'Channel', label_th: 'ช่อง' }, ] }, { value: 'Line', label: 'Line', label_th: 'ไลน์', subcategories: [ { value: 'Official Account', label: 'Official Account', label_th: 'บัญชีทางการ' }, { value: 'Group', label: 'Group', label_th: 'กลุ่ม' }, ] }, { value: 'Website', label: 'Website', label_th: 'เว็บไซต์', subcategories: [ { value: 'E-commerce', label: 'E-commerce', label_th: 'อีคอมเมิร์ซ' }, { value: 'Blog', label: 'Blog', label_th: 'บล็อก' }, { value: 'Forum', label: 'Forum', label_th: 'ฟอรั่ม' }, { value: 'Service Provider', label: 'Service Provider', label_th: 'ผู้ให้บริการ' }, ] }, { value: 'Online Service (General)', label: 'Online Service (General)', label_th: 'บริการออนไลน์ (ทั่วไป)' }, ] }, { value: 'Real World', label: 'Real World', label_th: 'โลกจริง', icon: '🌍', isTopLevel: true, subcategories: [ { value: 'Local Services', label: 'Local Services', label_th: 'บริการท้องถิ่น', icon: '🛠️', subcategories: [ { value: 'Movers', label: 'Movers', label_th: 'ผู้ให้บริการขนย้าย' }, { value: 'Tutors', label: 'Tutors', label_th: 'ติวเตอร์' }, { value: 'Handymen', label: 'Handymen', label_th: 'ช่างซ่อมบำรุง' }, { value: 'Cleaners', label: 'Cleaners', label_th: 'ผู้ให้บริการทำความสะอาด' }, { value: 'Plumbers', label: 'Plumbers', label_th: 'ช่างประปา' }, { value: 'Electricians', label: 'Electricians', label_th: 'ช่างไฟฟ้า' }, { value: 'Mechanics', label: 'Mechanics', label_th: 'ช่างยนต์' }, ] }, { value: 'Facebook Marketplace', label: 'Facebook Marketplace', label_th: 'ตลาด Facebook', icon: '🛒', subcategories: [ { value: 'Used Cars', label: 'Used Cars', label_th: 'รถยนต์มือสอง' }, { value: 'Used Furniture', label: 'Used Furniture', label_th: 'เฟอร์นิเจอร์มือสอง' }, { value: 'Used Electronics', label: 'Used Electronics', label_th: 'อุปกรณ์อิเล็กทรอนิกส์มือสอง' }, ] }, { value: 'Goods & Products', label: 'Goods & Products', label_th: 'สินค้าและผลิตภัณฑ์', icon: '📦', subcategories: [ { value: 'Used Clothing', label: 'Used Clothing', label_th: 'เสื้อผ้ามือสอง' }, { value: 'Used Electronics', label: 'Used Electronics', label_th: 'อุปกรณ์อิเล็กทรอนิกส์มือสอง' }, { value: 'Furniture', label: 'Furniture', label_th: 'เฟอร์นิเจอร์' }, { value: 'Antiques', label: 'Antiques', label_th: 'ของเก่า' }, { value: 'Collectibles', label: 'Collectibles', label_th: 'ของสะสม' }, ] }, { value: 'Landlords', label: 'Landlords', label_th: 'เจ้าของที่ดิน/อาคาร', icon: '🏠', subcategories: [ { value: 'Apartment', label: 'Apartment', label_th: 'อพาร์ตเมนต์' }, { value: 'Condo', label: 'Condo', label_th: 'คอนโด' }, { value: 'House', label: 'House', label_th: 'บ้าน' }, ] }, { value: 'Restaurants & Cafes', label: 'Restaurants & Cafes', label_th: 'ร้านอาหารและคาเฟ่', icon: '🍽️', subcategories: [ { value: 'Thai Food', label: 'Thai Food', label_th: 'อาหารไทย' }, { value: 'Japanese Food', label: 'Japanese Food', label_th: 'อาหารญี่ปุ่น' }, { value: 'Italian Food', label: 'Italian Food', label_th: 'อาหารอิตาเลียน' }, { value: 'Cafe', label: 'Cafe', label_th: 'คาเฟ่' }, { value: 'Street Food Stall', label: 'Street Food Stall', label_th: 'ร้านอาหารริมทาง' }, { value: 'Fine Dining', label: 'Fine Dining', label_th: 'ร้านอาหารหรู' }, ] }, { value: 'Retail Stores', label: 'Retail Stores', label_th: 'ร้านค้าปลีก', icon: '🛍️', subcategories: [ { value: 'Fashion Boutique', label: 'Fashion Boutique', label_th: 'ร้านบูติกเสื้อผ้า' }, { value: 'Electronics Store', label: 'Electronics Store', label_th: 'ร้านเครื่องใช้ไฟฟ้า' }, { value: 'Supermarket', label: 'Supermarket', label_th: 'ซูเปอร์มาร์เก็ต' }, { value: 'Convenience Store', label: 'Convenience Store', label_th: 'ร้านสะดวกซื้อ' }, ] }, { value: 'Education Centers', label: 'Education Centers', label_th: 'ศูนย์การศึกษา', icon: '🎓', subcategories: [ { value: 'Language School', label: 'Language School', label_th: 'โรงเรียนสอนภาษา' }, { value: 'Tutoring Center', label: 'Tutoring Center', label_th: 'ศูนย์กวดวิชา' }, { value: 'Workshop/Classes', label: 'Workshop/Classes', label_th: 'เวิร์คช็อป/คลาสเรียน' }, ] }, { value: 'Healthcare Services', label: 'Healthcare Services', label_th: 'บริการด้านสุขภาพ', icon: '🏥', subcategories: [ { value: 'Clinic', label: 'Clinic', label_th: 'คลินิก' }, { value: 'Hospital', label: 'Hospital', label_th: 'โรงพยาบาล' }, { value: 'Dentist', label: 'Dentist', label_th: 'ทันตแพทย์' }, { value: 'Pharmacy', label: 'Pharmacy', label_th: 'ร้านขายยา' }, ] }, ] } ];
@@ -685,57 +693,18 @@ const App = () => {
         const matchesMainCategory = selectedMainCategory === 'all' || item.mainCategory === selectedMainCategory;
         const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
         const matchesSubCategory = selectedSubCategory === 'all' || item.subCategory === selectedSubCategory;
-        const matchesCity = selectedCityFilter === 'all' || (item.location && item.location.city === selectedCityFilter);
-        const matchesDistrict = selectedDistrictFilter === 'all' || (item.location && item.location.district === selectedDistrictFilter);
-        const matchesZone = selectedZoneFilter === 'all' || (item.location && item.location.zone === selectedZoneFilter);
-        const matchesSubDistrict = selectedSubDistrictFilter === 'all' || (item.location && item.location.subDistrict === selectedSubDistrictFilter);
-        const matchesStreet = selectedStreetFilter === 'all' || (item.location && item.location.street === selectedStreetFilter);
-        const matchesAlley = selectedAlleyFilter === 'all' || (item.location && item.location.alley === selectedAlleyFilter);
-        const matchesSpecificArea = selectedSpecificAreaFilter === '' || (item.location && item.location.specificArea && item.location.specificArea.toLowerCase().includes(selectedSpecificAreaFilter.toLowerCase()));
+        const matchesCategoryBar = !selectedFilters.category || selectedFilters.category.startsWith('All') ||
+            item.mainCategory === selectedFilters.category || item.category === selectedFilters.category;
+        const matchesCity = !selectedFilters.city || selectedFilters.city.startsWith('All') || (item.location && item.location.city === selectedFilters.city);
+        const matchesDistrict = !selectedFilters.district || selectedFilters.district.startsWith('All') || (item.location && item.location.district === selectedFilters.district);
+        const matchesZone = !selectedFilters.zone || selectedFilters.zone.startsWith('All') || (item.location && item.location.zone === selectedFilters.zone);
+        const matchesSubDistrict = !selectedFilters.subDistrict || selectedFilters.subDistrict.startsWith('All') || (item.location && item.location.subDistrict === selectedFilters.subDistrict);
+        const matchesStreet = !selectedFilters.street || selectedFilters.street.startsWith('All') || (item.location && item.location.street === selectedFilters.street);
+        const matchesAlley = !selectedFilters.alley || selectedFilters.alley.startsWith('All') || (item.location && item.location.alley === selectedFilters.alley);
 
-        return matchesSearch && matchesMainCategory && matchesCategory && matchesSubCategory && matchesCity && matchesDistrict && matchesZone && matchesSubDistrict && matchesStreet && matchesAlley && matchesSpecificArea;
+        return matchesSearch && matchesMainCategory && matchesCategory && matchesSubCategory &&
+            matchesCategoryBar && matchesCity && matchesDistrict && matchesZone && matchesSubDistrict && matchesStreet && matchesAlley;
     });
-
-    const currentSelectedMainCategory = categories.find(cat => cat.value === selectedMainCategory);
-    const categoriesForFilter = currentSelectedMainCategory?.platforms || currentSelectedMainCategory?.subcategories || [];
-    const currentSelectedCategoryFilterObj = categoriesForFilter.find(cat => cat.value === selectedCategory);
-    const subcategoriesForFilter = currentSelectedCategoryFilterObj?.subcategories || [];
-    const currentSelectedCityFilterObj = citiesData.find(city => city.value === selectedCityFilter);
-    const districtsForFilter = currentSelectedCityFilterObj?.districts || [];
-    const currentSelectedDistrictFilterObj = districtsForFilter.find(d => d.value === selectedDistrictFilter);
-    const zonesForFilter = currentSelectedDistrictFilterObj?.zones || [];
-    const currentSelectedZoneFilterObj = zonesForFilter.find(z => z.value === selectedZoneFilter);
-    const subDistrictsForFilter = currentSelectedZoneFilterObj 
-        ? (currentSelectedDistrictFilterObj?.subDistricts.filter(sd => currentSelectedZoneFilterObj.khwaengValues.includes(sd.value)) || [])
-        : (currentSelectedDistrictFilterObj?.subDistricts || []);
-
-    const getStreetsForFilter = useCallback(() => {
-        if (selectedCityFilter !== 'Bangkok') return [];
-    
-        let relevantKhwaengs = [];
-    
-        if (selectedSubDistrictFilter !== 'all') {
-            relevantKhwaengs.push(selectedSubDistrictFilter);
-        } else if (selectedZoneFilter !== 'all' && currentSelectedZoneFilterObj) {
-            relevantKhwaengs = currentSelectedZoneFilterObj.khwaengValues;
-        } else if (selectedDistrictFilter !== 'all' && currentSelectedDistrictFilterObj) {
-            relevantKhwaengs = currentSelectedDistrictFilterObj.subDistricts.map(sd => sd.value);
-        } else if (selectedDistrictFilter === 'all') {
-            return bangkokStreetsData; // No district selected, show all streets for Bangkok
-        }
-    
-        if (relevantKhwaengs.length === 0) return [];
-    
-        return bangkokStreetsData.filter(street =>
-            street.associatedKhwaengs && street.associatedKhwaengs.some(khwaeng => relevantKhwaengs.includes(khwaeng))
-        );
-    }, [selectedCityFilter, selectedDistrictFilter, selectedZoneFilter, selectedSubDistrictFilter, currentSelectedDistrictFilterObj, currentSelectedZoneFilterObj, bangkokStreetsData]);
-
-    const streetsForFilter = getStreetsForFilter();
-    const currentSelectedStreetFilterObj = streetsForFilter.find(s => s.value === selectedStreetFilter);
-    const alleysForFilter = currentSelectedStreetFilterObj?.alleys || [];
-
-    // Auth and data effects remain the same
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setUser(user);
@@ -916,19 +885,7 @@ const App = () => {
       )}
 
       {showFilters && (
-        <div className="px-4 py-2">
-          <select
-            value={selectedMainCategory}
-            onChange={(e) => setSelectedMainCategory(e.target.value)}
-            className="bg-gray-800 text-sm rounded-md p-2"
-          >
-            {categories.filter(c => c.isTopLevel).map(cat => (
-              <option key={cat.value} value={cat.value}>
-                {language === 'en' ? cat.label : cat.label_th}
-              </option>
-            ))}
-          </select>
-        </div>
+        <FilterBar onFilterChange={handleFilterChange} />
       )}
 
     {/* Main Content */}
