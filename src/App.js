@@ -32,6 +32,7 @@ const App = () => {
     const [selectedFilters, setSelectedFilters] = useState({
         category: 'All Categories',
         shopType: '',
+        onlineType: '',
         city: '',
         district: '',
         zone: '',
@@ -100,8 +101,19 @@ const App = () => {
         const matchesAlley = !selectedFilters.alley || selectedFilters.alley.startsWith('All') || (item.location && item.location.alley === selectedFilters.alley);
         const matchesShopType = !selectedFilters.shopType || selectedFilters.shopType.startsWith('All') || item.subCategory === selectedFilters.shopType;
 
+        let matchesOnlineType = true;
+        if (selectedFilters.onlineType && item.mainCategory === 'Online') {
+            const onlineMap = {
+                'Social Media App': ['Facebook', 'Instagram', 'TikTok', 'Telegram', 'Line', 'YouTube', 'Shopee'],
+                'Website': ['Website'],
+                'Individual Remote Services': ['Online Service (General)'],
+            };
+            const allowed = onlineMap[selectedFilters.onlineType] || [];
+            matchesOnlineType = allowed.includes(item.category);
+        }
+
         return matchesSearch && matchesMainCategory && matchesCategory && matchesSubCategory &&
-            matchesCategoryBar && matchesCity && matchesDistrict && matchesZone && matchesSubDistrict && matchesStreet && matchesAlley && matchesShopType;
+            matchesCategoryBar && matchesCity && matchesDistrict && matchesZone && matchesSubDistrict && matchesStreet && matchesAlley && matchesShopType && matchesOnlineType;
     });
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
