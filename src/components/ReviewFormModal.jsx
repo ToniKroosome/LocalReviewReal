@@ -137,8 +137,8 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
                     </button>
                 </div>
                 
-                <div className="space-y-5">
-                    <div className="space-y-4 p-4 bg-gray-800/20 rounded-xl border border-gray-700/50">
+                <div className="space-y-4">
+                    <div className="space-y-3 p-3 bg-gray-800/20 rounded-xl border border-gray-700/50">
                         <div>
                         <label htmlFor="itemName" className="block text-sm font-semibold text-gray-300 mb-2">
                             {language === 'en' ? "What are you reviewing?" : "คุณกำลังรีวิวอะไร?"}
@@ -230,7 +230,7 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
                     </div>
 
                     {showLocationFields && (
-                        <div className="space-y-4 p-4 bg-gray-800/30 rounded-xl border border-gray-700/50">
+                <div className="space-y-3 p-3 bg-gray-800/30 rounded-xl border border-gray-700/50">
                             <p className="text-sm font-semibold text-gray-300">{language === 'en' ? "Location Details" : "รายละเอียดสถานที่"}</p>
                             
                             <div>
@@ -409,10 +409,10 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
                     )}
 
                     <div>
-                        <label className="block text-sm font-semibold text-gray-300 mb-3">
+                    <label className="block text-sm font-semibold text-gray-300 mb-2">
                             {language === 'en' ? "Rating" : "คะแนน"}
                         </label>
-                        <div className="flex justify-center p-4 bg-gray-800/30 rounded-xl border border-gray-700/50">
+                    <div className="flex justify-center p-3 bg-gray-800/30 rounded-xl border border-gray-700/50">
                             <StarRating 
                                 rating={newReview.rating} 
                                 size="lg" 
@@ -450,7 +450,7 @@ const alleysForForm = selectedStreetInForm?.alleys || [];
                         />
                     </div>
                     
-                    <div className="flex gap-3 pt-4">
+                    <div className="flex gap-3 pt-3">
                         <button
                             onClick={() => console.log(language === 'en' ? 'Photo upload functionality would be implemented here.' : 'ฟังก์ชันอัปโหลดรูปภาพจะถูกนำมาใช้ที่นี่')}
                             className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border rounded-lg border-gray-600 text-gray-300 hover:bg-gray-800/40 hover:text-gray-100 transition"
