@@ -91,8 +91,8 @@ const ReviewItem = ({ generateImage, item, onClick, language, categories, cities
     const imageUrlToDisplay = currentItemImageStatus?.url || item.fallbackImageUrl;
 
     return (
-        <div
-            className={`relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl shadow-xl border border-gray-700/50 p-6 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:border-gray-600/50 ${isHovered ? 'ring-2 ring-purple-500/20' : ''}`}
+        <div
+            className={`relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl shadow-lg border border-gray-700/50 p-4 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:border-gray-600/50 ${isHovered ? 'ring-2 ring-purple-500/20' : ''}`}
             onClick={() => onClick(item)}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -100,13 +100,13 @@ const ReviewItem = ({ generateImage, item, onClick, language, categories, cities
             {/* Background accent */}
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 rounded-2xl" />
             
-            {currentItemImageStatus?.loading ? (
-                <div className="mb-4 overflow-hidden rounded-xl aspect-video bg-gray-700 flex items-center justify-center">
+            {currentItemImageStatus?.loading ? (
+                <div className="mb-3 overflow-hidden rounded-xl aspect-[4/3] bg-gray-700 flex items-center justify-center">
                     <div className="w-10 h-10 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
                     <span className="text-sm text-gray-400 ml-3">Generating image...</span>
                 </div>
-            ) : imageUrlToDisplay ? (
-                <div className="mb-4 overflow-hidden rounded-xl aspect-video">
+            ) : imageUrlToDisplay ? (
+                <div className="mb-3 overflow-hidden rounded-xl aspect-[4/3]">
                     <img
                         src={imageUrlToDisplay}
                         alt={item.itemName}
@@ -114,20 +114,20 @@ const ReviewItem = ({ generateImage, item, onClick, language, categories, cities
                         onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/400x250/333/555?text=Image+Error"; }}
                     />
                 </div>
-            ) : (
-                <div className="mb-4 overflow-hidden rounded-xl aspect-video bg-gray-700 flex items-center justify-center text-gray-400">
+            ) : (
+                <div className="mb-3 overflow-hidden rounded-xl aspect-[4/3] bg-gray-700 flex items-center justify-center text-gray-400">
                     <Camera size={48} className="text-gray-500"/>
                 </div>
             )}
 
             <div className="relative flex justify-between items-start">
                 <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-100 mb-3 tracking-tight">{item.itemName}</h3>
+                    <h3 className="text-lg font-semibold text-gray-100 mb-2 tracking-tight">{item.itemName}</h3>
                     
-                    <div className="flex items-center gap-4 mb-4">
-                        <div className="flex items-center gap-2">
-                            <StarRating rating={item.rating} size="md" />
-                            <span className="text-lg font-bold text-gray-100">
+                    <div className="flex items-center gap-2 mb-3">
+                        <div className="flex items-center gap-1">
+                            <StarRating rating={item.rating} size="sm" />
+                            <span className="text-sm font-semibold text-gray-100">
                                 {item.rating ? item.rating.toFixed(1) : 'N/A'}
                             </span>
                         </div>
@@ -138,17 +138,17 @@ const ReviewItem = ({ generateImage, item, onClick, language, categories, cities
                     </div>
                     
                     <div className="flex flex-wrap gap-2">
-                        <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-purple-300 border border-purple-500/20 backdrop-blur-sm">
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-purple-300 border border-purple-500/20 backdrop-blur-sm">
                             {getCategoryLabel(item.mainCategory, item.category, item.subCategory)}
                         </span>
                         {item.location && item.location.city && item.location.city !== "Online" && (
-                            <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/20 backdrop-blur-sm">
+                            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium bg-gradient-to-r from-emerald-600/20 to-teal-600/20 text-emerald-300 border border-emerald-500/20 backdrop-blur-sm">
                                 <MapPin size={12} />
                                 {getLocationLabel(item.location)}
                             </span>
                         )}
                         {item.location && item.location.city === "Online" && (
-                            <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-600/20 to-cyan-600/20 text-blue-300 border border-blue-500/20 backdrop-blur-sm">
+                            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium bg-gradient-to-r from-blue-600/20 to-cyan-600/20 text-blue-300 border border-blue-500/20 backdrop-blur-sm">
                                 <Globe size={12} />
                                 {language === 'en' ? 'Digital' : 'ดิจิทัล'}
                             </span>
@@ -160,11 +160,11 @@ const ReviewItem = ({ generateImage, item, onClick, language, categories, cities
                 </div>
             </div>
 
-            {item.reviews && item.reviews.length > 0 && (
-                <div className="mt-4 p-4 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50">
-                    <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                            <span className="text-xs font-bold text-white">
+            {item.reviews && item.reviews.length > 0 && (
+                <div className="mt-3 p-3 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50">
+                    <div className="flex items-center gap-2 mb-2">
+                        <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                            <span className="text-[10px] font-bold text-white">
                                 {item.reviews[0].author.charAt(0).toUpperCase()}
                             </span>
                         </div>
@@ -181,7 +181,7 @@ const ReviewItem = ({ generateImage, item, onClick, language, categories, cities
                             <StarRating rating={item.reviews[0].rating} size="sm" />
                         </div>
                     </div>
-                    <p className="text-sm text-gray-300 line-clamp-2 italic">
+                    <p className="text-xs text-gray-300 line-clamp-2 italic">
                         "{language === 'en' ? item.reviews[0].comment : item.reviews[0].comment_th || item.reviews[0].comment}"
                     </p>
                 </div>
