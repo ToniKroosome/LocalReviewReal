@@ -145,6 +145,7 @@ const FilterBar = ({ onFilterChange, language }) => {
       <ShopTypeFilter
         selected={selectedFilters.shopType}
         onSelect={handleShopTypeSelect}
+        language={language}
       />
 
       {Object.entries(locationLevels).map(([level, options]) => {
