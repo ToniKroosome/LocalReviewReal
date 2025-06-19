@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-
-const QR_DATA_URL =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR42mNk+A8AAQUBAUFKnRUA' +
-  'AAAASUVORK5CYII=';
+import PromptPayQRModal from './PromptPayQRModal';
 
 const PaymentPage = ({ onBack, onComplete }) => {
   const [credits, setCredits] = useState(10);
   const [method, setMethod] = useState('qr'); // 'qr', 'stripe', 'paypal'
-  const [slip, setSlip] = useState(null);
   const [card, setCard] = useState({ number: '', exp: '', cvc: '' });
   const [completed, setCompleted] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [promptPayId, setPromptPayId] = useState('0801234567');
+  const [accountName, setAccountName] = useState('ร้านค้าเดโม');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100">
@@ -54,15 +53,24 @@ const PaymentPage = ({ onBack, onComplete }) => {
         </div>
 
         {method === 'qr' && (
-          <div className="space-y-2">
-            <img src={QR_DATA_URL} alt="QR Code" className="w-48 h-48" />
-            <p className="text-sm text-gray-400">Scan this code with your banking app and upload the receipt.</p>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={e => setSlip(e.target.files?.[0] || null)}
-              className="block text-sm"
-            />
+          <div className="space-y-2 text-sm text-gray-400">
+            <p>PromptPay QR code will be generated for {credits} credits.</p>
+            <div className="space-y-1 text-gray-300">
+              <label className="block">PromptPay ID</label>
+              <input
+                type="text"
+                value={promptPayId}
+                onChange={e => setPromptPayId(e.target.value)}
+                className="w-40 px-3 py-2 rounded-md bg-gray-800 text-sm focus:outline-none"
+              />
+              <label className="block mt-2">Account Name</label>
+              <input
+                type="text"
+                value={accountName}
+                onChange={e => setAccountName(e.target.value)}
+                className="w-60 px-3 py-2 rounded-md bg-gray-800 text-sm focus:outline-none"
+              />
+            </div>
           </div>
         )}
         {method === 'stripe' && (
@@ -105,14 +113,31 @@ const PaymentPage = ({ onBack, onComplete }) => {
 
         <button
           onClick={() => {
-            setCompleted(true);
-            if (onComplete) onComplete(credits);
+            if (method === 'qr') {
+              setShowQRModal(true);
+            } else {
+              setCompleted(true);
+              if (onComplete) onComplete(credits);
+            }
           }}
-          disabled={method === 'qr' && !slip}
           className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mt-4"
         >
           Complete Payment
         </button>
+
+        {method === 'qr' && (
+          <PromptPayQRModal
+            open={showQRModal}
+            onClose={() => setShowQRModal(false)}
+            promptPayId={promptPayId}
+            accountName={accountName}
+            amount={credits}
+            onComplete={() => {
+              setCompleted(true);
+              if (onComplete) onComplete(credits);
+            }}
+          />
+        )}
 
         {completed && <p className="text-green-400">Payment successful!</p>}
       </main>
