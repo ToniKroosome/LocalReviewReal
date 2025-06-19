@@ -84,10 +84,10 @@ const ReviewItem = ({ generateImage, item, onClick, language, categories, cities
     return (
         <div
             className={`relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl shadow-lg border border-gray-700/50 p-2 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:border-gray-600/50 max-w-[18rem] w-full mx-auto ${isHovered ? 'ring-2 ring-purple-500/20' : ''}`}
-            onClick={() => onClick(item)}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
+                <img
+                        src={imageUrlToDisplay}
+                        alt={language === 'th' && item.itemName_th ? item.itemName_th : item.itemName}
+                    <h3 className="text-sm font-semibold text-gray-100 mb-1 tracking-tight">{language === 'th' && item.itemName_th ? item.itemName_th : item.itemName}</h3>
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 rounded-2xl" />
             {currentItemImageStatus?.loading ? (
                 <div className="mb-1 overflow-hidden rounded-xl aspect-[3/1] bg-gray-700 flex items-center justify-center">

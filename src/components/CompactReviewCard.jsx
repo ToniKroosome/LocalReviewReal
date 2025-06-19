@@ -10,7 +10,7 @@ const CompactReviewCard = ({ item, onDetails, language = 'en' }) => {
   return (
     <div className="compact-review-card">
       <div className="crc-header">
-        <h3 className="crc-title">{item.itemName}</h3>
+        <h3 className="crc-title">{language === 'th' && item.itemName_th ? item.itemName_th : item.itemName}</h3>
         <div className="crc-rating">
           <StarRating rating={item.rating} size="sm" />
           <span className="crc-rating-val">{item.rating ? item.rating.toFixed(1) : 'N/A'}</span>
