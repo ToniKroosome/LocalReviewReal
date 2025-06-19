@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-
-const QR_DATA_URL =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR42mNk+A8AAQUBAUFKnRUA' +
-  'AAAASUVORK5CYII=';
+import PromptPayQRModal from './PromptPayQRModal';
 
 const PaymentPage = ({ onBack, onComplete }) => {
   const [credits, setCredits] = useState(10);
   const [method, setMethod] = useState('qr'); // 'qr', 'stripe', 'paypal'
-  const [slip, setSlip] = useState(null);
   const [card, setCard] = useState({ number: '', exp: '', cvc: '' });
   const [completed, setCompleted] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
+  const PROMPTPAY_ID = '0801234567';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100">
@@ -54,16 +52,7 @@ const PaymentPage = ({ onBack, onComplete }) => {
         </div>
 
         {method === 'qr' && (
-          <div className="space-y-2">
-            <img src={QR_DATA_URL} alt="QR Code" className="w-48 h-48" />
-            <p className="text-sm text-gray-400">Scan this code with your banking app and upload the receipt.</p>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={e => setSlip(e.target.files?.[0] || null)}
-              className="block text-sm"
-            />
-          </div>
+          <p className="text-sm text-gray-400">PromptPay QR code will be generated for {credits} credits.</p>
         )}
         {method === 'stripe' && (
           <div className="space-y-2">
@@ -105,14 +94,30 @@ const PaymentPage = ({ onBack, onComplete }) => {
 
         <button
           onClick={() => {
-            setCompleted(true);
-            if (onComplete) onComplete(credits);
+            if (method === 'qr') {
+              setShowQRModal(true);
+            } else {
+              setCompleted(true);
+              if (onComplete) onComplete(credits);
+            }
           }}
-          disabled={method === 'qr' && !slip}
           className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mt-4"
         >
           Complete Payment
         </button>
+
+        {method === 'qr' && (
+          <PromptPayQRModal
+            open={showQRModal}
+            onClose={() => setShowQRModal(false)}
+            promptPayId={PROMPTPAY_ID}
+            amount={credits}
+            onComplete={() => {
+              setCompleted(true);
+              if (onComplete) onComplete(credits);
+            }}
+          />
+        )}
 
         {completed && <p className="text-green-400">Payment successful!</p>}
       </main>
