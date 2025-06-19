@@ -39,7 +39,7 @@ const ItemList = ({
             <p className="text-gray-400">{language === 'en' ? 'Loading Reviews...' : 'กำลังโหลดรีวิว...'}</p>
           </div>
         ) : filteredReviews.length > 0 ? (
-          filteredReviews.map((item) => (
+          filteredReviews.map((item) =>
             showImages ? (
               <ReviewItem
                 key={item.id}
@@ -61,12 +61,16 @@ const ItemList = ({
                 language={language}
               />
             )
-          ))
+          )
         ) : (
           <div className="text-center py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl border border-gray-700/50 col-span-full">
             <Sparkles className="w-16 h-16 mx-auto mb-4 text-gray-600" />
             <p className="text-gray-400 text-lg">
-              {isLoadingNoMatchingReviewsMessage ? (language === 'en' ? 'Searching...' : 'กำลังค้นหา...') : noMatchingReviewsMessage}
+              {isLoadingNoMatchingReviewsMessage
+                ? language === 'en'
+                  ? 'Searching...'
+                  : 'กำลังค้นหา...'
+                : noMatchingReviewsMessage}
             </p>
           </div>
         )}
