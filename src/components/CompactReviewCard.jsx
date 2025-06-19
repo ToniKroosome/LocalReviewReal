@@ -3,7 +3,7 @@ import { MessageCircle, CheckCircle, MapPin, ArrowRight } from 'lucide-react';
 import StarRating from './StarRating';
 import '../styles/CompactReviewCard.css';
 
-const CompactReviewCard = ({ item, onDetails }) => {
+const CompactReviewCard = ({ item, onDetails, language = 'en' }) => {
   const review = item.reviews && item.reviews.length > 0 ? item.reviews[0] : null;
   const avatarLetter = review ? review.author.charAt(0).toUpperCase() : '';
 
@@ -39,7 +39,9 @@ const CompactReviewCard = ({ item, onDetails }) => {
               <span className="crc-author">{review.author}</span>
               {review.verified && <CheckCircle size={12} className="crc-verified" />}
             </div>
-            <p className="crc-comment">"{review.comment}"</p>
+            <p className="crc-comment">
+              "{language === 'en' ? review.comment : review.comment_th || review.comment}"
+            </p>
           </div>
         </div>
       )}

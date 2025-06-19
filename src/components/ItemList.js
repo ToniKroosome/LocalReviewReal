@@ -61,6 +61,7 @@ const ItemList = ({
                 key={item.id}
                 item={item}
                 onDetails={handleItemClick}
+                language={language}
               />
             )
           )
