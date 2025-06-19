@@ -9,6 +9,7 @@ import './styles/FilterBar.css';
 
 import GoogleIcon from "./components/GoogleIcon";
 import ReviewFormModal from "./components/ReviewFormModal";
+import PaymentPage from "./components/PaymentPage";
 import { initScrollbarStyles } from "./utils/scrollbarStyles";
 import generateImage from "./utils/imageGeneration";
 import { signIn, signOut } from "./utils/auth";
@@ -22,7 +23,7 @@ initScrollbarStyles();
 
 // Main App Component with enhanced design
 const App = () => {
-    const [page, setPage] = useState('home'); // 'home' or 'detail'
+    const [page, setPage] = useState('home'); // 'home', 'detail', 'payment'
     const [selectedItem, setSelectedItem] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [language, setLanguage] = useState(() => localStorage.getItem('language') || 'en');
@@ -46,7 +47,8 @@ const App = () => {
     const [isAuthReady, setIsAuthReady] = useState(false);
     const [noMatchingReviewsMessage, setNoMatchingReviewsMessage] = useState('');
     const [isLoadingNoMatchingReviewsMessage, setIsLoadingNoMatchingReviewsMessage] = useState(false);
-    const [generatedImages, setGeneratedImages] = useState({}); // State for dynamically generated images
+    const [generatedImages, setGeneratedImages] = useState({}); // State for dynamically generated images
+    const [creditsBalance, setCreditsBalance] = useState(0);
     // Visibility states for search and filter UI controlled by Header buttons
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
@@ -158,10 +160,19 @@ const App = () => {
         setPage('detail');
     };
 
-    const handleBack = () => {
-        setSelectedItem(null);
-        setPage('home');
-    };
+    const handleBack = () => {
+        setSelectedItem(null);
+        setPage('home');
+    };
+
+    const handleBuyCredits = () => {
+        setPage('payment');
+    };
+
+    const handlePaymentComplete = (amount) => {
+        setCreditsBalance(b => b + amount);
+        setPage('home');
+    };
       
     const handleLogin = async () => {
         try {
@@ -265,20 +276,24 @@ const App = () => {
         }
     }, [filteredReviews.length, isAuthReady, language, page]);
 
-    if (page === 'detail') {
-        return (
-            <ItemDetailPage 
-                item={selectedItem}
-                onBack={handleBack}
-                language={language}
-                categories={categories}
-                citiesData={citiesData}
-                bangkokStreetsData={bangkokStreetsData}
-                generatedImages={generatedImages}
-                setGeneratedImages={setGeneratedImages}
-            />
-        );
-    }
+    if (page === 'payment') {
+        return <PaymentPage onBack={handleBack} onComplete={handlePaymentComplete} />;
+    }
+
+    if (page === 'detail') {
+        return (
+            <ItemDetailPage
+                item={selectedItem}
+                onBack={handleBack}
+                language={language}
+                categories={categories}
+                citiesData={citiesData}
+                bangkokStreetsData={bangkokStreetsData}
+                generatedImages={generatedImages}
+                setGeneratedImages={setGeneratedImages}
+            />
+        );
+    }
     
  return (
   <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100 font-sans antialiased pt-12">
@@ -291,6 +306,8 @@ const App = () => {
       handleLogin={handleLogin}
       handleLogout={handleLogout}
       setShowReviewForm={setShowReviewForm}
+      onBuyCredits={handleBuyCredits}
+      creditsBalance={creditsBalance}
       language={language}
       setLanguage={setLanguage}
       GoogleIcon={GoogleIcon}
