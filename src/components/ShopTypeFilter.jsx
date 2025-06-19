@@ -6,7 +6,7 @@ import '../styles/ShopTypeFilter.css';
  * Recursive item used to render a tree of shop types. Each level can be
  * collapsed/expanded. Leaf nodes trigger the `onSelect` callback.
  */
-const ShopTypeItem = ({ node, depth, onSelect, selected }) => {
+const ShopTypeItem = ({ node, depth, onSelect, selected, language }) => {
   const [open, setOpen] = useState(false);
   const hasChildren = node.children && node.children.length > 0;
   const isActive = selected === node.id;
@@ -25,7 +25,7 @@ const ShopTypeItem = ({ node, depth, onSelect, selected }) => {
         className={`shop-type-button ${isActive ? 'shoptype-active' : ''}`}
         onClick={handleClick}
       >
-        {node.name}
+        {language === 'th' && node.name_th ? node.name_th : node.name}
       </button>
       {hasChildren && open && (
         <div className="shop-type-children">
@@ -36,6 +36,7 @@ const ShopTypeItem = ({ node, depth, onSelect, selected }) => {
               depth={depth + 1}
               onSelect={onSelect}
               selected={selected}
+              language={language}
             />
           ))}
         </div>
@@ -44,7 +45,7 @@ const ShopTypeItem = ({ node, depth, onSelect, selected }) => {
   );
 };
 
-const ShopTypeFilter = ({ selected, onSelect }) => (
+const ShopTypeFilter = ({ selected, onSelect, language = 'en' }) => (
   <div className="shop-type-section">
     <div className="shop-type-row">
       {shopTypes.map((root) => (
@@ -54,6 +55,7 @@ const ShopTypeFilter = ({ selected, onSelect }) => (
           depth={0}
           onSelect={onSelect}
           selected={selected}
+          language={language}
         />
       ))}
     </div>
