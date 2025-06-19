@@ -3,12 +3,34 @@ import React, { useState, useEffect } from "react";
 import { Camera, CheckCircle, MapPin } from "lucide-react";
 import StarRating from "./StarRating";
 
-const ReviewItem = ({ generateImage, item, onClick, language, categories, citiesData, bangkokStreetsData, generatedImages, setGeneratedImages }) => {
+const ReviewItem = ({
+    generateImage,
+    item,
+    onClick,
+    language,
+    categories,
+    citiesData,
+    bangkokStreetsData,
+    generatedImages,
+    setGeneratedImages
+}) => {
     const [isHovered, setIsHovered] = useState(false);
+    const displayName = language === 'th' && item.itemName_th ? item.itemName_th : item.itemName;
+
+    // Get the specific image status for *this* item from the overall state
     const currentItemImageStatus = generatedImages[item.id];
 
     useEffect(() => {
-        if (!currentItemImageStatus || (!currentItemImageStatus.url && !currentItemImageStatus.loading && (currentItemImageStatus.error || (currentItemImageStatus.retries !== undefined && currentItemImageStatus.retries < 3)))) {
+        if (
+            !currentItemImageStatus ||
+            (
+                !currentItemImageStatus.url &&
+                !currentItemImageStatus.loading &&
+                (currentItemImageStatus.error ||
+                    (currentItemImageStatus.retries !== undefined && currentItemImageStatus.retries < 3)
+                )
+            )
+        ) {
             const currentRetries = currentItemImageStatus?.retries || 0;
             if (currentItemImageStatus?.loading) return;
 
@@ -88,6 +110,7 @@ const ReviewItem = ({ generateImage, item, onClick, language, categories, cities
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
+            {/* Background accent */}
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 rounded-2xl" />
             {currentItemImageStatus?.loading ? (
                 <div className="mb-1 overflow-hidden rounded-xl aspect-[3/1] bg-gray-700 flex items-center justify-center">
@@ -98,7 +121,7 @@ const ReviewItem = ({ generateImage, item, onClick, language, categories, cities
                 <div className="mb-1 overflow-hidden rounded-xl aspect-[3/1]">
                     <img
                         src={imageUrlToDisplay}
-                        alt={item.itemName}
+                        alt={displayName}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x250/333/555?text=Image+Error"; }}
                     />
@@ -111,7 +134,7 @@ const ReviewItem = ({ generateImage, item, onClick, language, categories, cities
 
             <div className="relative flex justify-between items-start">
                 <div className="flex-1">
-                    <h3 className="text-sm font-semibold text-gray-100 mb-1 tracking-tight">{item.itemName}</h3>
+                    <h3 className="text-sm font-semibold text-gray-100 mb-1 tracking-tight">{displayName}</h3>
                     <div className="flex items-center gap-1 mb-1">
                         <div className="flex items-center gap-0.5">
                             <StarRating rating={item.rating} size="sm" />
