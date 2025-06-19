@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft, Camera, TrendingUp, Clock, MapPin, Heart, MessageCircle, CheckCircle } from "lucide-react";
+import PayPalEmailSettings from "./PayPalEmailSettings";
 import StarRating from "./StarRating";
 // New ItemDetailPage component
 const ItemDetailPage = ({ generateImage, item, onBack, language, categories, citiesData, bangkokStreetsData, generatedImages, setGeneratedImages }) => {
 
- const currentItemImageStatus = generatedImages[item.id];
- const displayName = language === 'th' && item.itemName_th ? item.itemName_th : item.itemName;
+const currentItemImageStatus = generatedImages[item.id];
+const displayName = language === 'th' && item.itemName_th ? item.itemName_th : item.itemName;
+
+ const [paypalEmail, setPaypalEmail] = useState(item.paypalEmail || '');
+ const [paypalVerified, setPaypalVerified] = useState(item.paypalVerified || false);
 
 // kick off image‐generation when this page mounts (or status changes)
 useEffect(() => {
@@ -194,24 +198,31 @@ useEffect(() => {
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mb-6">
-                            <div className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 backdrop-blur-sm rounded-xl p-4 border border-gray-700/50">
-                                <div className="flex items-center gap-2 text-purple-400 mb-2">
-                                    <TrendingUp size={18} />
-                                    <span className="text-sm font-semibold">{language === 'en' ? "Activity" : "กิจกรรม"}</span>
-                                </div>
-                                <p className="text-lg font-bold text-gray-100">{language === 'en' ? "High" : "สูง"}</p>
-                            </div>
-                            <div className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 backdrop-blur-sm rounded-xl p-4 border border-gray-700/50">
-                                <div className="flex items-center gap-2 text-blue-400 mb-2">
-                                    <Clock size={18} />
-                                    <span className="text-sm font-semibold">{language === 'en' ? "Last Review" : "รีวิวล่าสุด"}</span>
-                                </div>
-                                <p className="text-lg font-bold text-gray-100">{language === 'en' ? "Recent" : "เร็วๆ นี้"}</p>
-                            </div>
-                        </div>
+                            <div className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 backdrop-blur-sm rounded-xl p-4 border border-gray-700/50">
+                                <div className="flex items-center gap-2 text-purple-400 mb-2">
+                                    <TrendingUp size={18} />
+                                    <span className="text-sm font-semibold">{language === 'en' ? "Activity" : "กิจกรรม"}</span>
+                                </div>
+                                <p className="text-lg font-bold text-gray-100">{language === 'en' ? "High" : "สูง"}</p>
+                            </div>
+                            <div className="bg-gradient-to-br from-gray-800/50 to-gray-700/30 backdrop-blur-sm rounded-xl p-4 border border-gray-700/50">
+                                <div className="flex items-center gap-2 text-blue-400 mb-2">
+                                    <Clock size={18} />
+                                    <span className="text-sm font-semibold">{language === 'en' ? "Last Review" : "รีวิวล่าสุด"}</span>
+                                </div>
+                                <p className="text-lg font-bold text-gray-100">{language === 'en' ? "Recent" : "เร็วๆ นี้"}</p>
+                            </div>
+                        </div>
 
-                        <div className="space-y-4">
-                            <h3 className="text-xl font-bold text-gray-100 mb-4">{language === 'en' ? "All Reviews" : "รีวิวทั้งหมด"}</h3>
+                        <PayPalEmailSettings
+                            initialEmail={paypalEmail}
+                            initialVerified={paypalVerified}
+                            onEmailChange={setPaypalEmail}
+                            onVerified={setPaypalVerified}
+                        />
+
+                        <div className="space-y-4">
+                            <h3 className="text-xl font-bold text-gray-100 mb-4">{language === 'en' ? "All Reviews" : "รีวิวทั้งหมด"}</h3>
                             {item.reviews && item.reviews.length > 0 ? (
                                 item.reviews.sort((a, b) => new Date(b.date) - new Date(a.date)).map((review) => (
                                     <div key={review.id} className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-5 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300">

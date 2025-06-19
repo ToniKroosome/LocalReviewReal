@@ -9,6 +9,8 @@ const Header = ({
   handleLogin,
   handleLogout,
   setShowReviewForm,
+  onBuyCredits,
+  creditsBalance,
   language,
   setLanguage,
   GoogleIcon,
@@ -58,6 +60,13 @@ const Header = ({
         >
           Write
         </button>
+        <button
+          onClick={onBuyCredits}
+          className="px-2 py-1 rounded-lg bg-gray-800 text-gray-100 text-xs ml-1"
+        >
+          Buy Credits
+        </button>
+        <span className="text-xs text-gray-400 ml-1">{creditsBalance}</span>
         <button onClick={() => setLanguage(language === 'en' ? 'th' : 'en')} className="px-2 py-1 rounded-lg bg-gray-800 text-gray-100 text-xs ml-1">
           {language === 'en' ? '🇹🇭' : '🇬🇧'}
         </button>
