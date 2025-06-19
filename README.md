@@ -84,21 +84,3 @@ function App() {
 }
 
 export default App;
-
-## Language Toggle
-
-`CompactReviewCard` accepts a `language` prop to render comments in English (`review.comment`) or Thai (`review.comment_th`). Pass the current app language when rendering the card.
-
-```jsx
-<CompactReviewCard item={exampleItem} onDetails={() => {}} language="th" />
-```
-
-## Dropdown
-
-`Dropdown` shows a small trigger button but expands into a large scrollable menu. Use it like this:
-
-```jsx
-<Dropdown options={['One', 'Two', 'Three']} onSelect={(o) => console.log(o)} />
-```
-
-Menu and trigger styles are defined in `src/styles/Dropdown.css`.

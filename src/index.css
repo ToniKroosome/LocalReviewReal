@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Dark gray background for review cards */
-  --card-bg: #23272f;
+  --card-bg: #1f2937;
 }
 
 /* Global body styles for consistent layout */
