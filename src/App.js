@@ -87,13 +87,24 @@ const App = () => {
     });
     // Multi-criteria filtering block
     const filteredReviews = reviews.filter((item) => {
-        const q = searchQuery.toLowerCase();
+        const qTrim = searchQuery.trim();
+        const qLower = qTrim.toLowerCase();
+
         const matchesSearch =
-            item.itemName.toLowerCase().includes(q) ||
-            item.category.toLowerCase().includes(q) ||
-            item.subCategory.toLowerCase().includes(q) ||
-            (item.location && item.location.city && item.location.city.toLowerCase().includes(q)) ||
-            (item.location && item.location.district && item.location.district.toLowerCase().includes(q));
+            item.itemName.toLowerCase().includes(qLower) ||
+            (language === 'th' && item.itemName_th && item.itemName_th.includes(qTrim)) ||
+            item.category.toLowerCase().includes(qLower) ||
+            (language === 'th' && item.category_th && item.category_th.includes(qTrim)) ||
+            item.subCategory.toLowerCase().includes(qLower) ||
+            (language === 'th' && item.subCategory_th && item.subCategory_th.includes(qTrim)) ||
+            (item.location && item.location.city && (
+                item.location.city.toLowerCase().includes(qLower) ||
+                (language === 'th' && item.location.city_th && item.location.city_th.includes(qTrim))
+            )) ||
+            (item.location && item.location.district && (
+                item.location.district.toLowerCase().includes(qLower) ||
+                (language === 'th' && item.location.district_th && item.location.district_th.includes(qTrim))
+            ));
         const matchesMainCategory = selectedMainCategory === 'all' || item.mainCategory === selectedMainCategory;
         const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
         const matchesSubCategory = selectedSubCategory === 'all' || item.subCategory === selectedSubCategory;

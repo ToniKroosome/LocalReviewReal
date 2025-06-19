@@ -88,7 +88,6 @@ const ReviewItem = ({
             }
             if (currentSubCategoryData) parts.push(currentSubCategoryData[`label_${language}`] || subCat);
         }
-
         return parts.filter(Boolean).join(' / ');
     };
 
