@@ -109,3 +109,21 @@ function App() {
 Demo categories are defined in `src/data/multiLayerCategories.js`. Styles live in `src/styles/MultiLayerToggle.css`.
 
 The demo includes a language toggle showing English and Thai labels and a small search box to filter categories.
+## Language Toggle
+
+`CompactReviewCard` shows comments in English (`review.comment`) or Thai (`review.comment_th`) depending on the `language` prop. Item names can also include a Thai translation (`itemName_th`) that will display when `language` is set to `th`.
+`ReviewItem` and `ItemDetailPage` use the same logic so shop names switch languages consistently across the app.
+
+```jsx
+<CompactReviewCard item={item} onDetails={() => {}} language="th" />
+```
+
+## Dropdown
+
+`Dropdown` renders a small trigger button that expands into a scrollable list about 300px wide. Use it like this:
+
+```jsx
+<Dropdown options={['One', 'Two', 'Three']} onSelect={(o) => console.log(o)} />
+```
+
+The related styles are defined in `src/styles/Dropdown.css`.

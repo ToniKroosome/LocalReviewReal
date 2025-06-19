@@ -5,6 +5,7 @@ import StarRating from "./StarRating";
 const ItemDetailPage = ({ generateImage, item, onBack, language, categories, citiesData, bangkokStreetsData, generatedImages, setGeneratedImages }) => {
 
  const currentItemImageStatus = generatedImages[item.id];
+ const displayName = language === 'th' && item.itemName_th ? item.itemName_th : item.itemName;
 
 // kick off image‐generation when this page mounts (or status changes)
 useEffect(() => {
@@ -131,7 +132,7 @@ useEffect(() => {
                         <ArrowLeft size={20} />
                         <span className="font-semibold">{language === 'en' ? 'Back to List' : 'กลับไปที่รายการ'}</span>
                     </button>
-                    <h2 className="text-xl font-bold text-gray-100 truncate">{item.itemName}</h2>
+                    <h2 className="text-xl font-bold text-gray-100 truncate">{displayName}</h2>
                 </div>
             </header>
             <main className="max-w-3xl mx-auto p-4 md:p-6">
@@ -147,10 +148,10 @@ useEffect(() => {
                             </div>
                         ) : currentItemImageStatus?.url ? (
                             <div className="mb-6 overflow-hidden rounded-xl aspect-video shadow-lg">
-                                <img
-                                    src={currentItemImageStatus.url}
-                                    alt={item.itemName}
-                                    className="w-full h-full object-cover"
+                                <img
+                                    src={currentItemImageStatus.url}
+                                    alt={displayName}
+                                    className="w-full h-full object-cover"
                                     onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/400x250/333/555?text=Image+Error"; }}
                                 />
                             </div>
@@ -159,7 +160,7 @@ useEffect(() => {
                                 <Camera size={64} className="text-gray-500"/>
                             </div>
                         )}
-                        <h2 className="text-2xl font-bold text-gray-100 mb-4 tracking-tight">{item.itemName}</h2>
+                        <h2 className="text-2xl font-bold text-gray-100 mb-4 tracking-tight">{displayName}</h2>
                         
                         <div className="mb-6 flex flex-wrap gap-2">
                             <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-purple-600/20 to-blue-600/20 text-purple-300 border border-purple-500/20 backdrop-blur-sm">
