@@ -11,12 +11,12 @@ const CompactReviewCard = ({ item, onDetails }) => {
     <div className="compact-review-card">
       <div className="crc-header">
         <h3 className="crc-title">{item.itemName}</h3>
-        <div className="crc-rating">
-          <StarRating rating={item.rating} size="sm" />
-          <span className="crc-rating-val">{item.rating ? item.rating.toFixed(1) : 'N/A'}</span>
-          <MessageCircle size={12} className="crc-icon" />
-          <span className="crc-review-count">{item.reviewCount || 0}</span>
-        </div>
+      </div>
+      <div className="crc-rating">
+        <StarRating rating={item.rating} size="sm" />
+        <span className="crc-rating-val">{item.rating ? item.rating.toFixed(1) : 'N/A'}</span>
+        <MessageCircle size={12} className="crc-icon" />
+        <span className="crc-review-count">{item.reviewCount || 0}</span>
       </div>
 
       <div className="crc-tags">

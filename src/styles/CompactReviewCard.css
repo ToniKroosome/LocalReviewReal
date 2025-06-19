@@ -1,5 +1,5 @@
 .compact-review-card {
-  /* === Dark Theme === */
+  @apply mb-0.5;
   background-color: var(--card-bg, #23272f);
   @apply text-gray-100 rounded-lg shadow border border-gray-700 p-3 flex flex-col justify-between hover:shadow-md transition-transform duration-200;
 
