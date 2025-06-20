@@ -12,9 +12,11 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-scripts": "^5.0.1",
-    "promptpay-qr": "^1.2.0",
-    "qrcode": "^1.5.3",
-    "web-vitals": "^2.1.4"
+    "@stripe/stripe-js": "^2.2.0",
+    "web-vitals": "^2.1.4",
+    "@paypal/react-paypal-js": "^8.2.1",
+    "express": "^4.19.2",
+    "stripe": "^12.18.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -22,6 +24,7 @@
     "predeploy": "npm run build",
     "deploy":   "gh-pages -d build",
     "test": "react-scripts test",
+    "server": "node server/index.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
