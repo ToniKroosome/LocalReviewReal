@@ -4,7 +4,7 @@ Shop owners can edit the PayPal address used for receiving payments directly on 
 
 ## Buying Credits
 
-Use the **Buy Credits** button in the header to open the payment page. Select Stripe or PayPal and follow the prompts to complete payment.
+Use the **Buy Credits** button in the header to open the payment page. Select QR code, Stripe, or PayPal and follow the prompts to complete payment. The QR option generates a PromptPay code for manual payment.
 
 ## Running the Stripe demo server
 
