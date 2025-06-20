@@ -11,9 +11,26 @@ const PaymentPage = ({ onBack, onComplete }) => {
   const [credits, setCredits] = useState(10);
   const [method, setMethod] = useState('stripe'); // 'qr', 'stripe', 'paypal'
   const [completed, setCompleted] = useState(false);
+
+  // For PromptPay
   const [showQRModal, setShowQRModal] = useState(false);
-  const [promptPayId, setPromptPayId] = useState('0801234567');
-  const [accountName, setAccountName] = useState('ร้านค้าเดโม');
+  const [promptPayId, setPromptPayId] = useState('');
+  const [accountName, setAccountName] = useState('');
+
+  const handleStripeCheckout = async () => {
+    try {
+      const res = await fetch('/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: credits }),
+      });
+      const data = await res.json();
+      const stripe = await stripePromise;
+      await stripe.redirectToCheckout({ sessionId: data.id });
+    } catch (err) {
+      console.error('Stripe checkout error', err);
+    }
+  };
 
   const StripeForm = ({ amount }) => {
     const stripe = useStripe();
@@ -62,8 +79,6 @@ const PaymentPage = ({ onBack, onComplete }) => {
     );
   };
 
-
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-gray-100">
       <header className="bg-gray-900/90 backdrop-blur-xl shadow-2xl border-b border-gray-800/50 p-4 sticky top-0 z-10">
@@ -87,21 +102,21 @@ const PaymentPage = ({ onBack, onComplete }) => {
           />
         </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1">Payment Method</label>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-1">
-                <input type="radio" value="qr" checked={method==='qr'} onChange={() => setMethod('qr')} />
-                QR Code
-              </label>
-              <label className="flex items-center gap-1">
-                <input type="radio" value="stripe" checked={method==='stripe'} onChange={() => setMethod('stripe')} />
-                Stripe
-              </label>
-              <label className="flex items-center gap-1">
-                <input type="radio" value="paypal" checked={method==='paypal'} onChange={() => setMethod('paypal')} />
-                PayPal
-              </label>
+        <div>
+          <label className="block text-sm font-medium mb-1">Payment Method</label>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-1">
+              <input type="radio" value="qr" checked={method==='qr'} onChange={() => setMethod('qr')} />
+              QR Code
+            </label>
+            <label className="flex items-center gap-1">
+              <input type="radio" value="stripe" checked={method==='stripe'} onChange={() => setMethod('stripe')} />
+              Stripe
+            </label>
+            <label className="flex items-center gap-1">
+              <input type="radio" value="paypal" checked={method==='paypal'} onChange={() => setMethod('paypal')} />
+              PayPal
+            </label>
           </div>
         </div>
         {method === 'qr' && (
@@ -156,8 +171,6 @@ const PaymentPage = ({ onBack, onComplete }) => {
             </PayPalScriptProvider>
           </div>
         )}
-
-
 
         {completed && <p className="text-green-400">Payment successful!</p>}
         {method === 'qr' && (
