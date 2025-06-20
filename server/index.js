@@ -31,4 +31,19 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
+app.post('/create-payment-intent', async (req, res) => {
+  const { amount } = req.body;
+  try {
+    const intent = await stripe.paymentIntents.create({
+      amount: Math.round(amount * 100),
+      currency: 'thb',
+      automatic_payment_methods: { enabled: true },
+    });
+    res.json({ clientSecret: intent.client_secret });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to create payment intent' });
+  }
+});
+
 app.listen(4242, () => console.log('Server running on port 4242'));

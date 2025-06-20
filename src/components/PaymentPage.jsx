@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import PromptPayQRModal from './PromptPayQRModal';
 
 const stripePromise = loadStripe('pk_test_placeholder');
 
 const PaymentPage = ({ onBack, onComplete }) => {
   const [credits, setCredits] = useState(10);
-  const [method, setMethod] = useState('stripe'); // 'stripe', 'paypal'
+  const [method, setMethod] = useState('stripe'); // 'qr', 'stripe', 'paypal'
   const [completed, setCompleted] = useState(false);
+
+  // For PromptPay
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [promptPayId, setPromptPayId] = useState('');
+  const [accountName, setAccountName] = useState('');
 
   const handleStripeCheckout = async () => {
     try {
@@ -23,6 +30,53 @@ const PaymentPage = ({ onBack, onComplete }) => {
     } catch (err) {
       console.error('Stripe checkout error', err);
     }
+  };
+
+  const StripeForm = ({ amount }) => {
+    const stripe = useStripe();
+    const elements = useElements();
+    const [processing, setProcessing] = useState(false);
+
+    const handleSubmit = async e => {
+      e.preventDefault();
+      if (!stripe || !elements) return;
+      setProcessing(true);
+      try {
+        const res = await fetch('/create-payment-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount }),
+        });
+        const { clientSecret } = await res.json();
+        const { error } = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: { card: elements.getElement(CardElement) },
+        });
+        if (!error) {
+          setCompleted(true);
+          if (onComplete) onComplete(amount);
+        } else {
+          console.error('Stripe payment error', error);
+        }
+      } catch (err) {
+        console.error('Payment intent error', err);
+      }
+      setProcessing(false);
+    };
+
+    return (
+      <form onSubmit={handleSubmit} className="space-y-2">
+        <div className="p-2 bg-gray-800 rounded">
+          <CardElement options={{ hidePostalCode: true }} />
+        </div>
+        <button
+          type="submit"
+          disabled={!stripe || processing}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+        >
+          Pay with Card
+        </button>
+      </form>
+    );
   };
 
   return (
@@ -48,29 +102,55 @@ const PaymentPage = ({ onBack, onComplete }) => {
           />
         </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1">Payment Method</label>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-1">
-                <input type="radio" value="stripe" checked={method==='stripe'} onChange={() => setMethod('stripe')} />
-                Stripe
-              </label>
-              <label className="flex items-center gap-1">
-                <input type="radio" value="paypal" checked={method==='paypal'} onChange={() => setMethod('paypal')} />
-                PayPal
-              </label>
-            </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Payment Method</label>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-1">
+              <input type="radio" value="qr" checked={method==='qr'} onChange={() => setMethod('qr')} />
+              QR Code
+            </label>
+            <label className="flex items-center gap-1">
+              <input type="radio" value="stripe" checked={method==='stripe'} onChange={() => setMethod('stripe')} />
+              Stripe
+            </label>
+            <label className="flex items-center gap-1">
+              <input type="radio" value="paypal" checked={method==='paypal'} onChange={() => setMethod('paypal')} />
+              PayPal
+            </label>
           </div>
-          {method === 'stripe' && (
-            <div className="space-y-2">
-              <button
-                onClick={handleStripeCheckout}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-              >
-                Pay with Card
-              </button>
+        </div>
+        {method === 'qr' && (
+          <div className="space-y-2 text-sm text-gray-400">
+            <p>PromptPay QR code will be generated for {credits} credits.</p>
+            <div className="space-y-1 text-gray-300">
+              <label className="block">PromptPay ID</label>
+              <input
+                type="text"
+                value={promptPayId}
+                onChange={e => setPromptPayId(e.target.value)}
+                className="w-40 px-3 py-2 rounded-md bg-gray-800 text-sm focus:outline-none"
+              />
+              <label className="block mt-2">Account Name</label>
+              <input
+                type="text"
+                value={accountName}
+                onChange={e => setAccountName(e.target.value)}
+                className="w-60 px-3 py-2 rounded-md bg-gray-800 text-sm focus:outline-none"
+              />
             </div>
-          )}
+            <button
+              onClick={() => setShowQRModal(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+            >
+              Show QR Code
+            </button>
+          </div>
+        )}
+        {method === 'stripe' && (
+          <Elements stripe={stripePromise}>
+            <StripeForm amount={credits} />
+          </Elements>
+        )}
         {method === 'paypal' && (
           <div className="space-y-2">
             <PayPalScriptProvider options={{ 'client-id': 'test' }}>
@@ -92,9 +172,20 @@ const PaymentPage = ({ onBack, onComplete }) => {
           </div>
         )}
 
-
-
         {completed && <p className="text-green-400">Payment successful!</p>}
+        {method === 'qr' && (
+          <PromptPayQRModal
+            open={showQRModal}
+            onClose={() => setShowQRModal(false)}
+            promptPayId={promptPayId}
+            accountName={accountName}
+            amount={credits}
+            onComplete={() => {
+              setCompleted(true);
+              if (onComplete) onComplete(credits);
+            }}
+          />
+        )}
       </main>
     </div>
   );
