@@ -1,0 +1,43 @@
+.shop-type-section {
+  margin: 8px 0;
+  padding: 8px 0;
+  border-top: 1px solid #2f313d;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shop-type-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.shop-type-button {
+  padding: 6px 12px;
+  background: #2a2d3d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+}
+
+.shop-type-button:hover {
+  opacity: 1;
+  background: #3a3d4d;
+}
+
+.shop-type-button.shoptype-active {
+  background: #e67e22;
+  opacity: 1;
+}
+
+.shop-type-children {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
