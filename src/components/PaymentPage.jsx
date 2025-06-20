@@ -32,6 +32,7 @@ const PaymentPage = ({ onBack, onComplete }) => {
     }
   };
 
+  // Only one StripeForm definition!
   const StripeForm = ({ amount }) => {
     const stripe = useStripe();
     const elements = useElements();
