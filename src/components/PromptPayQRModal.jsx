@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import * as promptpay from 'promptpay-qr';
 import QRCode from 'qrcode';
+import { generatePromptPayPayload } from '../utils/promptpay';
 
 export default function PromptPayQRModal({ open, onClose, promptPayId, accountName, amount, onComplete }) {
   const [qrImage, setQrImage] = useState('');
 
   useEffect(() => {
     if (open && promptPayId) {
-      const payload = promptpay.generate(promptPayId, { amount });
+      const payload = generatePromptPayPayload(promptPayId, amount);
       QRCode.toDataURL(payload, { width: 256 }, (err, url) => {
         if (!err) setQrImage(url);
       });
