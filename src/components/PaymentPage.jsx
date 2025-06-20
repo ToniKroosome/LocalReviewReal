@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { loadStripe, Elements, CardElement, useStripe, useElements } from '../lib/reactStripe';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import PromptPayQRModal from './PromptPayQRModal';
 
